@@ -7,6 +7,7 @@ namespace RPGgame
         static void Main(string[] args)
         {
             Console.WriteLine("ВВедите имя: ");
+            Console.WriteLine("ВВедите имя: ");
             string name = Console.ReadLine();
             Console.WriteLine("Выберете пол(м/ж): ");
             string gender = Console.ReadLine();
