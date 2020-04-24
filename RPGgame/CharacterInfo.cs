@@ -25,7 +25,7 @@ namespace RPGgame
 
 		/*- состояние (нормальное, ослаблен, болен, отравлен, парализован, мёртв);*/
 		public enum State { normal, weakend, sick, poisoned, paralyzed, dead };
-		public State state { get; private set; }
+		public State state { get; set; }//сделал паблик сет потомучто нужно для заклиания
 
 		/*- раса (человек, гном, эльф, орк, гоблин) (*);*/
 		public enum Race { human, elf, ork, wizard };

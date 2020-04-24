@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 
 namespace RPGgame
@@ -56,7 +54,11 @@ namespace RPGgame
 
     class ToCure : Spell
     {
-
+        public ToCure(ref MagicCharacter person)
+        {
+            person.state = CharacterInfo.State.normal;
+            person.CurrentMagicPower -= 20;//не знаю где проходит проверка на достаточность маны
+        }
     }
     //3) «Противоядие». Суть этого заклинания – перевести какого-либо персонажа
     //из состояния «отравлен» в состояние «здоров или ослаблен». Текущая
@@ -64,7 +66,11 @@ namespace RPGgame
 
     class Antidot : Spell
     {
-
+        public Antidot(ref MagicCharacter person)
+        {
+            person.state = CharacterInfo.State.normal;
+            person.CurrentMagicPower -= 30;//не знаю где проходит проверка на достаточность маны
+        }
     }
     //4) «Оживить». Суть этого заклинания – перевести какого-либо персонажа из
     //состояния «мертв» в состояние «здоров или ослаблен». Текущая величина
@@ -72,7 +78,12 @@ namespace RPGgame
 
     class Revive : Spell
     {
-
+        public Revive(ref MagicCharacter person)
+        {
+            person.state = CharacterInfo.State.normal;
+            person.CurrentMagicPower -= 150;//не знаю где проходит проверка на достаточность маны
+            person.CurrentHealth = 1;
+        }
     }
     //5) «Броня». Персонаж, на которого обращено заклинание, становится
     //неуязвимым в течение некоторого промежутка времени, определяемого
@@ -91,6 +102,16 @@ namespace RPGgame
             t.Join();
             person.Protection = firstprotection;
         }
+        //public override void Armor(int time, ref MagicCharacter person)//луше сделать конструктор а не метод наверное
+        //{
+        //    int firstprotection = person.Protection;
+        //    person.Protection = 100;
+        //    Time = time;
+        //    Thread t = new Thread(SleepNow);
+        //    t.Start();
+        //    t.Join();
+        //    person.Protection = firstprotection;
+        //}
         private void SleepNow()
         {
             Thread.Sleep(Time);
@@ -101,6 +122,14 @@ namespace RPGgame
     //величина здоровья становится равной 1. Заклинание требует 85 единиц маны.
     class NotExpeliarmus : Spell
     {
-
+        public NotExpeliarmus(ref MagicCharacter person)
+        {
+            if (person.state == CharacterInfo.State.paralyzed)
+            {
+                person.state = CharacterInfo.State.normal;
+                person.CurrentMagicPower -= 85;//не знаю где проходит проверка на достаточность маны
+                person.CurrentHealth = 1;
+            }
+        }
     }
 }
