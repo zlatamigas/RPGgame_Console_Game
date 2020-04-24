@@ -7,16 +7,13 @@ namespace RPGgame
     public abstract class Spell : IMagican
     {
         public Spell() { }
-        virtual public void DoMAgicThing(int Damage, ref MagicCharacter person)
-        {
-            //person.CurrentMagicPower -= Damage;
-            //if (person.CurrentMagicPower < 0)
-            //    person.CurrentMagicPower = 0;
-        }
-
+        virtual public void DoMAgicThing(int Damage,MagicCharacter person)//поменять потом на объект
+        {}
+       
         public void DoMAgicThing() { }
 
-        readonly int MinMan;
-        bool verbal, moovment;//components
-    }
+        public int MinMan { get; protected set; }
+        public bool verbal { get; protected set; }
+        public bool moovment { get; protected set; }//components
+}
 }

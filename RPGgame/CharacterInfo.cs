@@ -71,34 +71,30 @@ namespace RPGgame
 		//////////Звездочкой помечены поля, не изменяющиеся после создания персонажа.////////////////////////////////////////////////////////////////////////////////////
 
 		/*- конструктор, задающий значения неизменяемых полей и обеспечивающий уникальность идентификатора для нового объекта; */
-		public CharacterInfo(string aname, string agender, string arace)
+		public CharacterInfo(string aname, Gender agender, Race arace)
 		{
 			ID = next_ID++;
 			Name = aname;//отдельно пользовательское и имя перса(?)
-			if (agender == "м")
-				gender = Gender.male;
-			if (agender == "ж")
-				gender = Gender.female;
+			
+			gender = agender;
 			curHealth = MaxHealth;
 			state = State.normal;
 			CanTalkNow = false;
 			MoveNow = true;
+
+			race = arace;
 			switch (arace)
 			{
-				case "ч":
-					race = Race.human;
+				case Race.human:
 					age = 47;
 					break;
-				case "o":
-					race = Race.ork;
+				case Race.ork:
 					age = 231;
 					break;
-				case "э":
-					race = Race.elf;
+				case Race.elf:
 					age = 1500;
 					break;
-				case "м":
-					race = Race.wizard;
+				case Race.wizard:
 					age = 478;
 					break;
 				default:

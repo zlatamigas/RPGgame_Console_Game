@@ -35,15 +35,18 @@ namespace RPGgame
 		заклинания, заклинание не может быть произнесено, а количество маны остается
 		неизменным.*/
 
-        public MagicCharacter(string aname, string agender, string arace) : base(aname, agender, arace)
+        public MagicCharacter(string aname, Gender agender, Race arace) : base(aname, agender, arace)
         {
             CurrentMagicPower = MaxMagicPower;
         }
         public bool ActivateSpell(int expectedPower, Spell ourspell, object target)
         {
-            //if (neededMana > CurrentMagicPower)
-            //    return false;
-            return true;
+            if (ourspell.MinMan <= CurrentMagicPower)
+            {
+                ourspell.DoMAgicThing(expectedPower, target as MagicCharacter);//поменять потом на объект
+                return true;
+            }
+            return false;
         }
 
         /*Некоторые заклинания обладают силой, причем сила заклинания задается
@@ -51,12 +54,17 @@ namespace RPGgame
 		пропорционален силе заклинания. Сила заклинания ограничивается текущим
 		значением маны.*/
 
-        public void ConvertIntoPower(int power)
-        {
-            int koef = 2;
-            int mpnow = (int)Math.Ceiling((double)power / koef);//?
-            ActivateSpell(mpnow, null, null);//?
-        }
+
+       /*Должно использоваться внутри классов заклинаний для каждого свое преобразование*/
+        //public void ConvertIntoPower(int power)
+        //{
+        //    int koef = 2;
+        //    int mpnow = (int)Math.Ceiling((double)power / koef);//?
+        //    ActivateSpell(mpnow, null, null);//?
+        //}
+
+
+
 
         /*Реализовать заклинание «добавление здоровья». Суть этого заклинания – увеличить
 		текущее значение здоровья какого-либо персонажа (в том числе и себя) до

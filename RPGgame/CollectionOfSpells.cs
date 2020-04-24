@@ -92,7 +92,7 @@ namespace RPGgame
     class Armor : Spell
     {
         int Time;
-        public override void DoMAgicThing(int time, ref MagicCharacter person)
+        public override void DoMAgicThing(int time, MagicCharacter person)
         {
             int firstprotection = person.Protection;
             person.Protection = 100;
