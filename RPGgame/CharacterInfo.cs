@@ -10,18 +10,16 @@ namespace RPGgame
 		public int Protection { get; set; }
 
 		/*- уникальный числовой идентификатор (*);*/
-		static int next_ID = 0;//?
+		static int next_ID = 0;
 
 		public int ID { get; private set; }
 
 		/*- имя персонажа (*);*/
 		public string Name { get; private set; }
 
-
 		/*- пол (*);*/
 		public enum Gender { male, female };
 		public Gender gender { get; private set; }
-
 
 		/*- состояние (нормальное, ослаблен, болен, отравлен, парализован, мёртв);*/
 		public enum State { normal, weakend, sick, poisoned, paralyzed, dead };
@@ -49,7 +47,6 @@ namespace RPGgame
 				if (value > MaxHealth)
 					value = MaxHealth;
 				curHealth = value;
-
 				CheckState(this);
 			}
 		}
@@ -60,15 +57,13 @@ namespace RPGgame
 		/*- количество опыта, набранное персонажем.*/
 		public int Experiance { get; set; }
 
-
 		/*- возможность разговаривать в текущий момент времени;*/
 		public bool CanTalkNow { get; set; }//?
 
 		/*- возможность двигаться в текущий момент времени;*/
 		public bool MoveNow { get; set; }
-
-
-		//////////Звездочкой помечены поля, не изменяющиеся после создания персонажа.////////////////////////////////////////////////////////////////////////////////////
+		
+		//////////////////////////////////////////////////////////////////////////////////////////////
 
 		/*- конструктор, задающий значения неизменяемых полей и обеспечивающий уникальность идентификатора для нового объекта; */
 		public CharacterInfo(string aname, Gender agender, Race arace)
@@ -164,7 +159,6 @@ namespace RPGgame
 				case Race.wizard:
 					race = "маг";
 					break;
-
 			}
 
 			string state = "";
@@ -189,14 +183,12 @@ namespace RPGgame
 				case State.weakend:
 					state = "ослаблен";
 					break;
-
 			}
 
-			return String.Format($"ID: {this.ID}\nИмя персонажа: {this.Name}\n" +
+			return string.Format($"ID: {this.ID}\nИмя персонажа: {this.Name}\n" +
 				$"Раса: {race}\nПол: {gend}\n" +
 				$"Возраст: {this.age}\nКоличество здоровья: {this.curHealth} hp\n" +
 				$"Состояние здоровья: {state}\nКоличество опытв: {this.Experiance} xp");
-
 		}
 	}
 }

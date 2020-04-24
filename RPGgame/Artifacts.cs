@@ -4,16 +4,15 @@ using System.Text;
 
 namespace RPGgame
 {
-    class Artifacts : ICollector
+    public abstract class Artifacts : IMagican
     { //поля:
         public int power;
         public bool renewability;
         public Artifacts() { }
-        virtual public void UseArtifact(int Damage, ref MagicCharacter person)
-        {
-            
-        }
+        public void DoMAgicThing(int Damage, MagicCharacter person) { }
+        public void DoMAgicThing() { }
 
-        public void UseArtifact() { }
+        //virtual public void UseArtifact(int Damage, ref MagicCharacter person) { }
+        //public void UseArtifact() { }
     }
 }

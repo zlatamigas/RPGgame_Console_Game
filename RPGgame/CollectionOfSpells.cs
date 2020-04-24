@@ -41,12 +41,8 @@ namespace RPGgame
         //                CurrentHealth += available;
         //            }
         //        }
-
-
-
         //    }
         //}
-
     }
     //2) «Вылечить». Суть этого заклинания – перевести какого-либо персонажа из
     //состояния «болен» в состояние «здоров или ослаблен». Текущая величина
@@ -102,7 +98,7 @@ namespace RPGgame
             t.Join();
             person.Protection = firstprotection;
         }
-        //public override void Armor(int time, ref MagicCharacter person)//луше сделать конструктор а не метод наверное
+        //public override void Armor(int time, MagicCharacter person)//луше сделать конструктор а не метод наверное
         //{
         //    int firstprotection = person.Protection;
         //    person.Protection = 100;

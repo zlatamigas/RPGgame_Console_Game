@@ -8,11 +8,11 @@ namespace RPGgame
         {
             try
             {
-                Console.WriteLine("ВВедите имя: ");
+                Console.WriteLine("Введите имя: ");
                 string name = Console.ReadLine();
                 if(name=="")
                     throw new ArgumentException("Empty name!");
-                Console.WriteLine("Выберете пол(м/ж): ");
+                Console.WriteLine("Выберите пол(м/ж): ");
                 string g = Console.ReadLine();
                 CharacterInfo.Gender gender = CharacterInfo.Gender.male;
                 if (g == "м")
@@ -47,14 +47,13 @@ namespace RPGgame
                 if (rassa == CharacterInfo.Race.wizard)
                 {
                     var hero = new MagicCharacter(name, gender, rassa);
-                    Console.WriteLine("Вывесли информацию о персонаже ?(да/нет)");
+                    Console.WriteLine("Вывести информацию о персонаже ?(да/нет)");
                     string ans = Console.ReadLine();
                     if (ans == "да")
                     {
                         Console.WriteLine(hero.ToString());
                     }
-                    Console.WriteLine();
-                    Console.WriteLine("какое использовать заклиание (Добавить здоровье(+)\nВылечить(^)\nОживить(@)\nБроня(#)" +
+                    Console.WriteLine("какое использовать заклиание \n(Добавить здоровье(+)\nВылечить(^)\nОживить(@)\nБроня(#)" +
                         "\nОтомри!(*)\nПротивоядие(%))");
                     ans = Console.ReadLine();
                     switch (ans)
@@ -82,7 +81,7 @@ namespace RPGgame
                 else
                 {
                     var hero = new CharacterInfo(name, gender, rassa);
-                    Console.WriteLine("Вывесли информацию о персонаже ?(да/нет)");
+                    Console.WriteLine("Вывеслти информацию о персонаже ?(да/нет)");
                     string ans = Console.ReadLine();
                     if (ans == "да")
                     {
@@ -91,9 +90,9 @@ namespace RPGgame
                 }
             }
             catch (ArgumentException ag) {
-                Console.ForegroundColor = System.ConsoleColor.Red;
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(ag.Message);
-                Console.ForegroundColor = System.ConsoleColor.White;
+                Console.ForegroundColor = ConsoleColor.White;
             }
         }
     }

@@ -7,11 +7,8 @@ namespace RPGgame
     /*Создать класс-потомок «персонаж, владеющий магией»*/
     public class MagicCharacter : CharacterInfo
     {
-
-        /*
-		 - текущее значение магической энергии (маны) (неотрицательная величина);
-		- максимальное значение маны.
-		 */
+        /* - текущее значение магической энергии (маны) (неотрицательная величина);
+		- максимальное значение маны.	 */
         private int curMP;
         public int CurrentMagicPower
         {
@@ -34,7 +31,6 @@ namespace RPGgame
 		меньше того количества, которое требуется для произнесения какого-либо
 		заклинания, заклинание не может быть произнесено, а количество маны остается
 		неизменным.*/
-
         public MagicCharacter(string aname, Gender agender, Race arace) : base(aname, agender, arace)
         {
             CurrentMagicPower = MaxMagicPower;
@@ -54,17 +50,15 @@ namespace RPGgame
 		пропорционален силе заклинания. Сила заклинания ограничивается текущим
 		значением маны.*/
 
-
-       /*Должно использоваться внутри классов заклинаний для каждого свое преобразование*/
+       /* Должно использоваться внутри классов заклинаний для каждого свое преобразование
+        
         //public void ConvertIntoPower(int power)
         //{
         //    int koef = 2;
         //    int mpnow = (int)Math.Ceiling((double)power / koef);//?
         //    ActivateSpell(mpnow, null, null);//?
         //}
-
-
-
+        */
 
         /*Реализовать заклинание «добавление здоровья». Суть этого заклинания – увеличить
 		текущее значение здоровья какого-либо персонажа (в том числе и себя) до
@@ -96,7 +90,6 @@ namespace RPGgame
         //                CurrentHealth += available;
         //            }
         //        }
-
 
         //        //if (ActivateSpell(neededmp))
         //        //{

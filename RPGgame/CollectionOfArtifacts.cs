@@ -10,11 +10,8 @@ namespace RPGgame
     //используется полностью! Могут быть малые, средние и большие бутылки,
     //увеличивающие здоровье соответственно на 10, 25 и 50 единиц.Не
     //возобновляемый.
-
-
     class Aqua : Artifacts
     {
-
         public enum LiveBottle { small, medium, big };
         public LiveBottle bottle { get; private set; }
         int num;
@@ -40,23 +37,16 @@ namespace RPGgame
                 }
             }
         }
-
-
         public Aqua(LiveBottle size)
         {
             renewability = false;
             bottle = size;
             power = BottlePower;
         }
-
         public void IncreaseMana(ref MagicCharacter person)
         {
-
             person.CurrentHealth += power;
         }
-
-
-
     }
     //Бутылка с мертвой водой – увеличивает ману персонажа, владеющего
     //магией.Мана не может превысить максимальную величину, но артефакт
@@ -90,21 +80,16 @@ namespace RPGgame
                 }
             }
         }
-
-
         public Deadwater(DeadBottle size)
         {
             renewability = false;
             bottle = size;
             power = BottlePower;
         }
-
         public void IncreaseMana(ref MagicCharacter person)
         {
-
             person.CurrentMagicPower += power;
         }
-
     }
     //Посох «Молния». Уменьшает количество здоровья персонажа, против
     //которого был применен этот артефакт, на величину, заданную мощностью
@@ -118,19 +103,15 @@ namespace RPGgame
             renewability = true;
             power = Pover;
         }
-
-
     }
     //Декокт из лягушачьих лапок.Переводит какого-либо персонажа из состояния
     //«отравлен» в состояние «здоров или ослаблен». Текущая величина здоровья
     //не изменяется.Не возобновляемый.
-
     class FrogsFeet : Artifacts
     {
         public FrogsFeet()
         {
             renewability = false;
-
         }
         public void DoUselessWork(ref MagicCharacter person)
         {
@@ -144,10 +125,8 @@ namespace RPGgame
                 {
                     person.state = CharacterInfo.State.normal;
                 }
-
             }
         }
-
         // Ядовитая слюна(накладка на зубы, через которую надо плевать). Переводит
         //какого-либо персонажа из состояния «здоров или ослаблен» в состояние
         //«отравлен». Текущая величина здоровья уменьшается на величину,
@@ -161,11 +140,10 @@ namespace RPGgame
                 renewability = true;
                 power = Pover;
             }
-
             public void Poison(ref MagicCharacter person)
             {
                 if (person.state == CharacterInfo.State.normal
-                    && person.state == CharacterInfo.State.weakend)
+                    || person.state == CharacterInfo.State.weakend)
                 {
                     person.state = CharacterInfo.State.poisoned;
                 }
@@ -175,7 +153,6 @@ namespace RPGgame
                 }
                 else person.CurrentHealth -= power;
             }
-
         }
         //Глаз василиска.Переводит любого не мёртвого персонажа в состояние
         //«парализован». Не возобновляемый.
@@ -184,7 +161,6 @@ namespace RPGgame
             public BasiliskEye()
             {
                 renewability = false;
-
             }
             public void Paralyze(ref MagicCharacter person)
             {
@@ -193,8 +169,6 @@ namespace RPGgame
                     person.state = CharacterInfo.State.paralyzed;
                 }
             }
-
-
         }
     }
 }
