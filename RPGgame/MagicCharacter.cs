@@ -44,21 +44,26 @@ namespace RPGgame
             }
             return false;
         }
+        public bool ActivateArtifact(int expectedPower, Artifacts ourartifact, object target)//
+        {
+
+            return true;
+        }
 
         /*Некоторые заклинания обладают силой, причем сила заклинания задается
 		волшебником в момент его произнесения. Расход маны в этом случае
 		пропорционален силе заклинания. Сила заклинания ограничивается текущим
 		значением маны.*/
 
-       /* Должно использоваться внутри классов заклинаний для каждого свое преобразование
-        
-        //public void ConvertIntoPower(int power)
-        //{
-        //    int koef = 2;
-        //    int mpnow = (int)Math.Ceiling((double)power / koef);//?
-        //    ActivateSpell(mpnow, null, null);//?
-        //}
-        */
+        /* Должно использоваться внутри классов заклинаний для каждого свое преобразование
+
+         //public void ConvertIntoPower(int power)
+         //{
+         //    int koef = 2;
+         //    int mpnow = (int)Math.Ceiling((double)power / koef);//?
+         //    ActivateSpell(mpnow, null, null);//?
+         //}
+         */
 
         /*Реализовать заклинание «добавление здоровья». Суть этого заклинания – увеличить
 		текущее значение здоровья какого-либо персонажа (в том числе и себя) до

@@ -6,11 +6,12 @@ namespace RPGgame
 {
     public abstract class Artifacts : IMagican
     { //поля:
-        public int power;
-        public bool renewability;
+        public int power { get; set; }
+        public bool renewability { get; protected set; }
         public Artifacts() { }
-        public void DoMAgicThing(int Damage, MagicCharacter person) { }
-        public void DoMAgicThing() { }
+        virtual public void DoMAgicThing(int Damage, MagicCharacter person) {  }
+        virtual public void DoMAgicThing(MagicCharacter person) { }
+        virtual public void DoMAgicThing() { }
 
         //virtual public void UseArtifact(int Damage, ref MagicCharacter person) { }
         //public void UseArtifact() { }

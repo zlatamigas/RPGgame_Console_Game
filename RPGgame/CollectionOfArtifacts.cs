@@ -11,7 +11,7 @@ namespace RPGgame
     //увеличивающие здоровье соответственно на 10, 25 и 50 единиц.Не
     //возобновляемый.
     class Aqua : Artifacts
-    {
+    {        
         public enum LiveBottle { small, medium, big };
         public LiveBottle bottle { get; private set; }
         int num;
@@ -40,10 +40,11 @@ namespace RPGgame
         public Aqua(LiveBottle size)
         {
             renewability = false;
+
             bottle = size;
             power = BottlePower;
         }
-        public void IncreaseMana(ref MagicCharacter person)
+        public void IncreaseMana(MagicCharacter person)
         {
             person.CurrentHealth += power;
         }
@@ -86,7 +87,7 @@ namespace RPGgame
             bottle = size;
             power = BottlePower;
         }
-        public void IncreaseMana(ref MagicCharacter person)
+        public void IncreaseMana(MagicCharacter person)
         {
             person.CurrentMagicPower += power;
         }
@@ -98,10 +99,17 @@ namespace RPGgame
     //использования, если его мощность равна нулю.
     class LightningStaff : Artifacts
     {
-        public LightningStaff(int Pover)
+        public LightningStaff()
         {
             renewability = true;
-            power = Pover;
+            power = 100;
+        }
+        override public void DoMAgicThing(int Damage, MagicCharacter person) 
+        {
+            if (Damage <= power) {
+                person.CurrentHealth -= Damage;
+                power -= Damage;
+            }
         }
     }
     //Декокт из лягушачьих лапок.Переводит какого-либо персонажа из состояния
@@ -127,48 +135,45 @@ namespace RPGgame
                 }
             }
         }
-        // Ядовитая слюна(накладка на зубы, через которую надо плевать). Переводит
-        //какого-либо персонажа из состояния «здоров или ослаблен» в состояние
-        //«отравлен». Текущая величина здоровья уменьшается на величину,
-        //задаваемую мощностью артефакта.При применении этого артефакта
-        //персонаж, против которого он был применен, может умереть!
-        //Возобновляемый.
-        class PoisonousSaliva : Artifacts
+    }
+    // Ядовитая слюна(накладка на зубы, через которую надо плевать). Переводит
+    //какого-либо персонажа из состояния «здоров или ослаблен» в состояние
+    //«отравлен». Текущая величина здоровья уменьшается на величину,
+    //задаваемую мощностью артефакта.При применении этого артефакта
+    //персонаж, против которого он был применен, может умереть!
+    //Возобновляемый.
+    class PoisonousSaliva : Artifacts
+    {
+        public PoisonousSaliva()
         {
-            public PoisonousSaliva(int Pover)
-            {
-                renewability = true;
-                power = Pover;
-            }
-            public void Poison(ref MagicCharacter person)
-            {
-                if (person.state == CharacterInfo.State.normal
-                    || person.state == CharacterInfo.State.weakend)
-                {
-                    person.state = CharacterInfo.State.poisoned;
-                }
-                if (person.CurrentHealth <= power)
-                {
-                    person.state = CharacterInfo.State.dead;
-                }
-                else person.CurrentHealth -= power;
-            }
+            renewability = true;
+            power = 20;
         }
-        //Глаз василиска.Переводит любого не мёртвого персонажа в состояние
-        //«парализован». Не возобновляемый.
-        class BasiliskEye : Artifacts
+        public override void DoMAgicThing(MagicCharacter person)
         {
-            public BasiliskEye()
+            person.CurrentHealth -= power;
+            if (person.state == CharacterInfo.State.normal || person.state == CharacterInfo.State.weakend)
             {
-                renewability = false;
-            }
-            public void Paralyze(ref MagicCharacter person)
+                person.state = CharacterInfo.State.poisoned;
+            }   
+        }
+    }
+    //Глаз василиска.Переводит любого не мёртвого персонажа в состояние
+    //«парализован». Не возобновляемый.
+    class BasiliskEye : Artifacts
+    {
+        public BasiliskEye()
+        {
+            renewability = false;
+        }
+        public void Paralyze(ref MagicCharacter person)
+        {
+            if (person.state != CharacterInfo.State.dead)
             {
-                if (person.state != CharacterInfo.State.dead)
-                {
-                    person.state = CharacterInfo.State.paralyzed;
-                }
+                person.state = CharacterInfo.State.paralyzed;
             }
         }
     }
+    
+
 }
