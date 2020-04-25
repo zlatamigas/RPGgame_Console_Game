@@ -8,41 +8,20 @@ namespace RPGgame
     //задаваемого текущим значением маны.На единицу добавленного здоровья
     //расходуется две единицы маны.
 
-    class Addhelth : Spell
+    class Addhelth : Spell//все проверки происходят в классе магии вроде
     {
         override public void DoMAgicThing(int Damage, MagicCharacter person)//Damage - потраченные мп
         {
-
-            
+            MinMan = 2;
+            if (Damage % 2 == 0) {
+                person.CurrentHealth += Damage / 2;
+                person.CurrentMagicPower -= Damage;
+            }
+            else {
+                person.CurrentHealth += (Damage-1)/2;
+                person.CurrentMagicPower -= Damage;
+            }
         }
-
-        //public void HealthUp(object ob)
-        //{
-        //    if (ob is CharacterInfo)
-        //    {
-        //        int available = curMP / 2;
-        //        //(int)Math.Ceiling((double)curMP / 2);
-
-        //        if (ActivateSpell(available))
-        //        {
-        //            if ((ob as CharacterInfo).CurrentHealth + available == CharacterInfo.MaxHealth)
-        //            {
-        //                CurrentMagicPower = 0;
-        //                CurrentHealth = CharacterInfo.MaxHealth;
-        //            }
-        //            if ((ob as CharacterInfo).CurrentHealth + available > CharacterInfo.MaxHealth)
-        //            {
-        //                CurrentHealth = CharacterInfo.MaxHealth;
-        //                CurrentMagicPower -= 2 * (CharacterInfo.MaxHealth - (ob as CharacterInfo).CurrentHealth);
-        //            }
-        //            if ((ob as CharacterInfo).CurrentHealth + available < CharacterInfo.MaxHealth)
-        //            {
-        //                CurrentMagicPower = 0;
-        //                CurrentHealth += available;
-        //            }
-        //        }
-        //    }
-        //}
     }
     //2) «Вылечить». Суть этого заклинания – перевести какого-либо персонажа из
     //состояния «болен» в состояние «здоров или ослаблен». Текущая величина
@@ -64,9 +43,8 @@ namespace RPGgame
                 {
                     person.state = CharacterInfo.State.normal;
                 }
-                person.CurrentMagicPower -= MinMan;//не знаю где проходит проверка на достаточность маны
+                person.CurrentMagicPower -= MinMan;
             }
-
         }
     }
     //3) «Противоядие». Суть этого заклинания – перевести какого-либо персонажа
@@ -75,10 +53,22 @@ namespace RPGgame
 
     class Antidot : Spell
     {
-        public Antidot(ref MagicCharacter person)
+        override public void DoMAgicThing(MagicCharacter person)
         {
-            person.state = CharacterInfo.State.normal;
-            person.CurrentMagicPower -= 30;//не знаю где проходит проверка на достаточность маны
+            MinMan = 30;
+
+            if (person.state == CharacterInfo.State.poisoned)
+            {
+                if (person.CurrentHealth < 10)
+                {
+                    person.state = CharacterInfo.State.weakend;
+                }
+                if (person.CurrentHealth >= 10)
+                {
+                    person.state = CharacterInfo.State.normal;
+                }
+                person.CurrentMagicPower -= MinMan;
+            }
         }
     }
     //4) «Оживить». Суть этого заклинания – перевести какого-либо персонажа из
@@ -87,11 +77,22 @@ namespace RPGgame
 
     class Revive : Spell
     {
-        public Revive(ref MagicCharacter person)
+        override public void DoMAgicThing(MagicCharacter person)
         {
-            person.state = CharacterInfo.State.normal;
-            person.CurrentMagicPower -= 150;//не знаю где проходит проверка на достаточность маны
-            person.CurrentHealth = 1;
+            MinMan = 150;
+            if (person.state == CharacterInfo.State.dead)
+            {
+                if (person.CurrentHealth < 10)
+                {
+                    person.state = CharacterInfo.State.weakend;
+                }
+                if (person.CurrentHealth >= 10)
+                {
+                    person.state = CharacterInfo.State.normal;
+                }
+                person.CurrentMagicPower -= MinMan;
+                person.CurrentHealth = 1;
+            }
         }
     }
     //5) «Броня». Персонаж, на которого обращено заклинание, становится
@@ -111,16 +112,6 @@ namespace RPGgame
             t.Join();
             person.Protection = firstprotection;
         }
-        //public override void Armor(int time, MagicCharacter person)//луше сделать конструктор а не метод наверное
-        //{
-        //    int firstprotection = person.Protection;
-        //    person.Protection = 100;
-        //    Time = time;
-        //    Thread t = new Thread(SleepNow);
-        //    t.Start();
-        //    t.Join();
-        //    person.Protection = firstprotection;
-        //}
         private void SleepNow()
         {
             Thread.Sleep(Time);
@@ -131,12 +122,20 @@ namespace RPGgame
     //величина здоровья становится равной 1. Заклинание требует 85 единиц маны.
     class NotExpeliarmus : Spell
     {
-        public NotExpeliarmus(ref MagicCharacter person)
+        override public void DoMAgicThing(MagicCharacter person)
         {
+            MinMan = 85;
             if (person.state == CharacterInfo.State.paralyzed)
             {
-                person.state = CharacterInfo.State.normal;
-                person.CurrentMagicPower -= 85;//не знаю где проходит проверка на достаточность маны
+                if (person.CurrentHealth < 10)
+                {
+                    person.state = CharacterInfo.State.weakend;
+                }
+                if (person.CurrentHealth >= 10)
+                {
+                    person.state = CharacterInfo.State.normal;
+                }
+                person.CurrentMagicPower -= MinMan;
                 person.CurrentHealth = 1;
             }
         }
