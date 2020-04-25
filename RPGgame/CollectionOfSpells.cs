@@ -10,10 +10,10 @@ namespace RPGgame
 
     class Addhelth : Spell
     {
-        public int Added;
-        public Addhelth(int Added)
+        override public void DoMAgicThing(int Damage, MagicCharacter person)//Damage - потраченные мп
         {
-            this.Added = Added;
+
+            
         }
 
         //public void HealthUp(object ob)
@@ -50,10 +50,23 @@ namespace RPGgame
 
     class ToCure : Spell
     {
-        public ToCure(ref MagicCharacter person)
+        override public void DoMAgicThing(MagicCharacter person)
         {
-            person.state = CharacterInfo.State.normal;
-            person.CurrentMagicPower -= 20;//не знаю где проходит проверка на достаточность маны
+            MinMan = 20;
+
+            if (person.state == CharacterInfo.State.sick)
+            {
+                if (person.CurrentHealth < 10)
+                {
+                    person.state = CharacterInfo.State.weakend;
+                }
+                if (person.CurrentHealth >= 10)
+                {
+                    person.state = CharacterInfo.State.normal;
+                }
+                person.CurrentMagicPower -= MinMan;//не знаю где проходит проверка на достаточность маны
+            }
+
         }
     }
     //3) «Противоядие». Суть этого заклинания – перевести какого-либо персонажа
