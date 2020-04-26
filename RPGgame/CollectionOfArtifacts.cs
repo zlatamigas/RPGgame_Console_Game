@@ -14,39 +14,28 @@ namespace RPGgame
     {        
         public enum LiveBottle { small, medium, big };
         public LiveBottle bottle { get; private set; }
-        int num;
-        public int BottlePower
-        {
-            get
-            {
-                return num;
-            }
-            set
-            {
-                if (bottle == LiveBottle.small)
-                {
-                    num = 10;
-                }
-                if (bottle == LiveBottle.medium)
-                {
-                    num = 25;
-                }
-                if (bottle == LiveBottle.big)
-                {
-                    num = 50;
-                }
-            }
-        }
         public Aqua(LiveBottle size)
         {
             renewability = false;
-
             bottle = size;
-            power = BottlePower;
+            
         }
-        public void IncreaseMana(MagicCharacter person)
+       override public void DoMAgicThing(MagicCharacter person)
         {
-            person.CurrentHealth += power;
+
+            if (bottle == LiveBottle.small)
+            {
+                person.CurrentHealth +=  10;
+            }
+            if (bottle == LiveBottle.medium)
+            {
+                person.CurrentHealth += 25;
+            }
+            if (bottle == LiveBottle.big)
+            {
+                person.CurrentHealth += 50;
+            }
+            
         }
     }
     //Бутылка с мертвой водой – увеличивает ману персонажа, владеющего
@@ -58,38 +47,28 @@ namespace RPGgame
     {
         public enum DeadBottle { small, medium, big };
         public DeadBottle bottle { get; private set; }
-        int num;
-        public int BottlePower
-        {
-            get
-            {
-                return num;
-            }
-            set
-            {
-                if (bottle == DeadBottle.small)
-                {
-                    num = 10;
-                }
-                if (bottle == DeadBottle.medium)
-                {
-                    num = 25;
-                }
-                if (bottle == DeadBottle.big)
-                {
-                    num = 50;
-                }
-            }
-        }
+        
         public Deadwater(DeadBottle size)
         {
             renewability = false;
             bottle = size;
-            power = BottlePower;
+            
         }
-        public void IncreaseMana(MagicCharacter person)
+        override public void DoMAgicThing(MagicCharacter person)
         {
-            person.CurrentMagicPower += power;
+            if (bottle == DeadBottle.small)
+            {
+                person.CurrentMagicPower += 10;
+            }
+            if (bottle == DeadBottle.medium)
+            {
+                person.CurrentMagicPower += 25;
+            }
+            if (bottle == DeadBottle.big)
+            {
+                person.CurrentMagicPower += 50;
+            }
+          
         }
     }
     //Посох «Молния». Уменьшает количество здоровья персонажа, против
@@ -121,7 +100,7 @@ namespace RPGgame
         {
             renewability = false;
         }
-        public void DoUselessWork(ref MagicCharacter person)
+       override public void DoMAgicThing( MagicCharacter person)
         {
             if (person.state == CharacterInfo.State.poisoned)
             {
@@ -129,10 +108,9 @@ namespace RPGgame
                 {
                     person.state = CharacterInfo.State.weakend;
                 }
-                if (person.CurrentHealth >= 10)
-                {
-                    person.state = CharacterInfo.State.normal;
-                }
+                
+                else   person.state = CharacterInfo.State.normal;
+                
             }
         }
     }
@@ -149,7 +127,7 @@ namespace RPGgame
             renewability = true;
             power = 20;
         }
-        public override void DoMAgicThing(MagicCharacter person)
+      override public void DoMAgicThing(MagicCharacter person)
         {
             person.CurrentHealth -= power;
             if (person.state == CharacterInfo.State.normal || person.state == CharacterInfo.State.weakend)
@@ -166,7 +144,7 @@ namespace RPGgame
         {
             renewability = false;
         }
-        public void Paralyze(ref MagicCharacter person)
+      override public void DoMAgicThing( MagicCharacter person)
         {
             if (person.state != CharacterInfo.State.dead)
             {
