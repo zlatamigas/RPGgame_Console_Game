@@ -58,28 +58,6 @@ namespace RPGgame
         }
 
 
-
-        public bool ActivateArtifact(Artifacts ourartifact, CharacterInfo target)
-        {
-            if (ourartifact.power != 0)
-            {
-                ourartifact.DoMAgicThing(target);
-                return true;
-            }
-            return false;
-        }
-
-        public bool ActivateArtifact(int expectedPower, Artifacts ourartifact, CharacterInfo target)
-        {
-            if (ourartifact.power != 0)
-                if (expectedPower <= ourartifact.power)
-                {
-                    ourartifact.DoMAgicThing(expectedPower, target);
-                    return true;
-                }
-            return false;
-        }
-
         /*Некоторые заклинания обладают силой, причем сила заклинания задается
 		волшебником в момент его произнесения. Расход маны в этом случае
 		пропорционален силе заклинания. Сила заклинания ограничивается текущим

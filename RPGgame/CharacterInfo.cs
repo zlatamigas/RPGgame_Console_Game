@@ -190,6 +190,30 @@ namespace RPGgame
 				$"Возраст: {this.age}\nКоличество здоровья: {this.curHealth} hp\n" +
 				$"Состояние здоровья: {state}\nКоличество опытв: {this.Experiance} xp");
 		}
+
+
+
+
+		public bool ActivateArtifact(Artifacts ourartifact, CharacterInfo target)
+		{
+			if (ourartifact.power != 0)
+			{
+				ourartifact.DoMAgicThing(target);
+				return true;
+			}
+			return false;
+		}
+
+		public bool ActivateArtifact(int expectedPower, Artifacts ourartifact, CharacterInfo target)
+		{
+			if (ourartifact.power != 0)
+				if (expectedPower <= ourartifact.power)
+				{
+					ourartifact.DoMAgicThing(expectedPower, target);
+					return true;
+				}
+			return false;
+		}
 	}
 }
 
