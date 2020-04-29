@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Collections;
 
 namespace RPGgame
 {
@@ -62,7 +63,7 @@ namespace RPGgame
 
 		/*- возможность двигаться в текущий момент времени;*/
 		public bool MoveNow { get; set; }
-		
+
 		//////////////////////////////////////////////////////////////////////////////////////////////
 
 		/*- конструктор, задающий значения неизменяемых полей и обеспечивающий уникальность идентификатора для нового объекта; */
@@ -70,7 +71,7 @@ namespace RPGgame
 		{
 			ID = next_ID++;
 			Name = aname;//отдельно пользовательское и имя перса(?)
-			
+
 			gender = agender;
 			curHealth = MaxHealth;
 			state = State.normal;
@@ -96,7 +97,7 @@ namespace RPGgame
 					throw new ArgumentException("Unknown race!");
 			}
 			Experiance = 0;
-
+			inventory = new ArrayList();
 		}
 		/*- свойства для всех полей (доступ к полям может быть реализован только при помощи свойств);*/
 		//(?)
@@ -196,22 +197,58 @@ namespace RPGgame
 
 		public bool ActivateArtifact(Artifacts ourartifact, CharacterInfo target)
 		{
-			if (ourartifact.power != 0)
-			{
-				ourartifact.DoMAgicThing(target);
-				return true;
-			}
+			if (inventory.Contains(ourartifact))
+				if (ourartifact.power != 0)
+				{
+					ourartifact.DoMAgicThing(target);
+					if (ourartifact.power == 0 && ourartifact.renewability == false)
+						inventory.Remove(ourartifact);
+					return true;
+				}
 			return false;
 		}
 
 		public bool ActivateArtifact(int expectedPower, Artifacts ourartifact, CharacterInfo target)
 		{
-			if (ourartifact.power != 0)
-				if (expectedPower <= ourartifact.power)
+			if (inventory.Contains(ourartifact))
+				if (ourartifact.power != 0)
+					if (expectedPower <= ourartifact.power)
+					{
+						ourartifact.DoMAgicThing(expectedPower, target);
+						if (ourartifact.power == 0 && ourartifact.renewability == false)
+							inventory.Remove(ourartifact);
+						return true;
+					}
+			return false;
+		}
+
+
+		ArrayList inventory;
+		public bool AddArtifact(Artifacts art) {
+			if (inventory.Count < 20) {
+				inventory.Add(art);
+				return true;
+			}
+			return false;
+		}
+
+		public bool ThrowArtifact(Artifacts art) {
+			if (inventory.Contains(art)) {
+				inventory.Remove(art);
+				return true;
+			}
+			return false;
+		}
+
+		public bool GiveAwayArtifact(Artifacts art, CharacterInfo target) {
+
+			if (inventory.Contains(art))
+				if (target.AddArtifact(art))
 				{
-					ourartifact.DoMAgicThing(expectedPower, target);
+					inventory.Remove(art);
 					return true;
 				}
+			
 			return false;
 		}
 	}

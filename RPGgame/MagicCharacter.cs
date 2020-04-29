@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Collections;
 
 namespace RPGgame
 {
@@ -34,26 +35,29 @@ namespace RPGgame
         public MagicCharacter(string aname, Gender agender, Race arace) : base(aname, agender, arace)
         {
             CurrentMagicPower = MaxMagicPower;
+            learnedSpells = new ArrayList();
         }
         public bool ActivateSpell(int expectedPower, Spell ourspell, CharacterInfo target)//expectedPower - активирующая мана
         {
-            if (ourspell.MinMan <= CurrentMagicPower)
-                if (expectedPower >= ourspell.MinMan && expectedPower <= CurrentMagicPower)
-                {
-                    this.CurrentMagicPower -= expectedPower;
-                    ourspell.DoMAgicThing(expectedPower, target);
-                    return true;
-                }
+            if (learnedSpells.Contains(ourspell))
+                if (ourspell.MinMan <= CurrentMagicPower)
+                    if (expectedPower >= ourspell.MinMan && expectedPower <= CurrentMagicPower)
+                    {
+                        this.CurrentMagicPower -= expectedPower;
+                        ourspell.DoMAgicThing(expectedPower, target);
+                        return true;
+                    }
             return false;
         }
         public bool ActivateSpell(Spell ourspell, CharacterInfo target)
         {
-            if (ourspell.MinMan <= CurrentMagicPower)
-            {
-                this.CurrentMagicPower -= ourspell.MinMan;
-                ourspell.DoMAgicThing(target);
-                return true;
-            }
+            if (learnedSpells.Contains(ourspell))
+                if (ourspell.MinMan <= CurrentMagicPower)
+                {
+                    this.CurrentMagicPower -= ourspell.MinMan;
+                    ourspell.DoMAgicThing(target);
+                    return true;
+                }
             return false;
         }
 
@@ -64,6 +68,27 @@ namespace RPGgame
 		значением маны.*/
 
 
+        ArrayList learnedSpells;
+        public bool LearnSpell(Spell spell)
+        {
+            if (!learnedSpells.Contains(spell))
+                if (learnedSpells.Count < 5)
+                {
+                    learnedSpells.Add(spell);
+                    return true;
+                }
+            return false;
+        }
+
+        public bool ForgetSpell(Spell spell)
+        {
+            if (learnedSpells.Contains(spell))
+            {
+                learnedSpells.Remove(spell);
+                return true;
+            }
+            return false;
+        }
 
     }
 }
