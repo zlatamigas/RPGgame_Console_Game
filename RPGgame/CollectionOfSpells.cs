@@ -10,16 +10,19 @@ namespace RPGgame
 
     class Addhelth : Spell//все проверки происходят в классе магии вроде
     {
-        override public void DoMAgicThing(int Damage, MagicCharacter person)//Damage - потраченные мп
+        Addhelth() 
         {
             MinMan = 2;
+            movement = false;
+            verbal = true;
+        }
+        override public void DoMAgicThing(int Damage, CharacterInfo person)//Damage - потраченные мп
+        {
             if (Damage % 2 == 0) {
                 person.CurrentHealth += Damage / 2;
-                person.CurrentMagicPower -= Damage;
             }
             else {
                 person.CurrentHealth += (Damage-1)/2;
-                person.CurrentMagicPower -= Damage;
             }
         }
     }
@@ -29,10 +32,14 @@ namespace RPGgame
 
     class ToCure : Spell
     {
-        override public void DoMAgicThing(MagicCharacter person)
+        ToCure() 
         {
             MinMan = 20;
-
+            movement = false;
+            verbal = true;
+        }
+        override public void DoMAgicThing(CharacterInfo person)
+        {
             if (person.state == CharacterInfo.State.sick)
             {
                 if (person.CurrentHealth < 10)
@@ -43,7 +50,6 @@ namespace RPGgame
                 {
                     person.state = CharacterInfo.State.normal;
                 }
-                person.CurrentMagicPower -= MinMan;
             }
         }
     }
@@ -53,9 +59,14 @@ namespace RPGgame
 
     class Antidot : Spell
     {
-        override public void DoMAgicThing(MagicCharacter person)
+        Antidot()
         {
             MinMan = 30;
+            movement = false;
+            verbal = true;
+        }
+        override public void DoMAgicThing(CharacterInfo person)
+        {
 
             if (person.state == CharacterInfo.State.poisoned)
             {
@@ -67,7 +78,6 @@ namespace RPGgame
                 {
                     person.state = CharacterInfo.State.normal;
                 }
-                person.CurrentMagicPower -= MinMan;
             }
         }
     }
@@ -77,7 +87,13 @@ namespace RPGgame
 
     class Revive : Spell
     {
-        override public void DoMAgicThing(MagicCharacter person)
+        Revive()
+        {
+            MinMan = 150;
+            movement = true;
+            verbal = true;
+        }
+        override public void DoMAgicThing(CharacterInfo person)
         {
             MinMan = 150;
             if (person.state == CharacterInfo.State.dead)
@@ -90,7 +106,6 @@ namespace RPGgame
                 {
                     person.state = CharacterInfo.State.normal;
                 }
-                person.CurrentMagicPower -= MinMan;
                 person.CurrentHealth = 1;
             }
         }
@@ -101,12 +116,18 @@ namespace RPGgame
 
     class Armor : Spell
     {
+        Armor()
+        {
+            MinMan = 50;
+            movement = true;
+            verbal = false;
+        }
         int Time;
-        public override void DoMAgicThing(int time, MagicCharacter person)
+        public override void DoMAgicThing(int usedMana, CharacterInfo person)
         {
             int firstprotection = person.Protection;
             person.Protection = 100;
-            Time = time;
+            Time = (usedMana/MinMan)*1000;
             Thread t = new Thread(SleepNow);
             t.Start();
             t.Join();
@@ -122,9 +143,14 @@ namespace RPGgame
     //величина здоровья становится равной 1. Заклинание требует 85 единиц маны.
     class NotExpeliarmus : Spell
     {
-        override public void DoMAgicThing(MagicCharacter person)
+        NotExpeliarmus()
         {
             MinMan = 85;
+            movement = false;
+            verbal = true;
+        }
+        override public void DoMAgicThing(CharacterInfo person)
+        {
             if (person.state == CharacterInfo.State.paralyzed)
             {
                 if (person.CurrentHealth < 10)
@@ -135,7 +161,6 @@ namespace RPGgame
                 {
                     person.state = CharacterInfo.State.normal;
                 }
-                person.CurrentMagicPower -= MinMan;
                 person.CurrentHealth = 1;
             }
         }

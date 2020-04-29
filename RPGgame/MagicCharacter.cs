@@ -25,7 +25,7 @@ namespace RPGgame
                 curMP = value;
             }
         }
-        static int MaxMagicPower = 100;
+        static int MaxMagicPower = 1000;
 
         /*Мана расходуется на произнесение заклинаний. Если текущее значение маны
 		меньше того количества, которое требуется для произнесения какого-либо
@@ -35,19 +35,49 @@ namespace RPGgame
         {
             CurrentMagicPower = MaxMagicPower;
         }
-        public bool ActivateSpell(int expectedPower, Spell ourspell, object target)
+        public bool ActivateSpell(int expectedPower, Spell ourspell, CharacterInfo target)//expectedPower - активирующая мана
+        {
+            if (ourspell.MinMan <= CurrentMagicPower)
+                if (expectedPower >= ourspell.MinMan && expectedPower <= CurrentMagicPower)
+                {
+                    this.CurrentMagicPower -= expectedPower;
+                    ourspell.DoMAgicThing(expectedPower, target);
+                    return true;
+                }
+            return false;
+        }
+        public bool ActivateSpell(Spell ourspell, CharacterInfo target)
         {
             if (ourspell.MinMan <= CurrentMagicPower)
             {
-                ourspell.DoMAgicThing(expectedPower, target as MagicCharacter);//поменять потом на объект
+                this.CurrentMagicPower -= ourspell.MinMan;
+                ourspell.DoMAgicThing(target);
                 return true;
             }
             return false;
         }
-        public bool ActivateArtifact(int expectedPower, Artifacts ourartifact, object target)//
-        {
 
-            return true;
+
+
+        public bool ActivateArtifact(Artifacts ourartifact, CharacterInfo target)
+        {
+            if (ourartifact.power != 0)
+            {
+                ourartifact.DoMAgicThing(target);
+                return true;
+            }
+            return false;
+        }
+
+        public bool ActivateArtifact(int expectedPower, Artifacts ourartifact, CharacterInfo target)
+        {
+            if (ourartifact.power != 0)
+                if (expectedPower <= ourartifact.power)
+                {
+                    ourartifact.DoMAgicThing(expectedPower, target);
+                    return true;
+                }
+            return false;
         }
 
         /*Некоторые заклинания обладают силой, причем сила заклинания задается
@@ -55,61 +85,7 @@ namespace RPGgame
 		пропорционален силе заклинания. Сила заклинания ограничивается текущим
 		значением маны.*/
 
-        /* Должно использоваться внутри классов заклинаний для каждого свое преобразование
 
-         //public void ConvertIntoPower(int power)
-         //{
-         //    int koef = 2;
-         //    int mpnow = (int)Math.Ceiling((double)power / koef);//?
-         //    ActivateSpell(mpnow, null, null);//?
-         //}
-         */
 
-        /*Реализовать заклинание «добавление здоровья». Суть этого заклинания – увеличить
-		текущее значение здоровья какого-либо персонажа (в том числе и себя) до
-		максимального или до предела, задаваемого текущим значением маны. На единицу
-		добавленного здоровья расходуется две единицы маны*/
-
-        //public void HealthUp(object ob)
-        //{
-        //    if (ob is CharacterInfo)
-        //    {
-        //        int available = curMP / 2;
-        //        //(int)Math.Ceiling((double)curMP / 2);
-
-        //        if (ActivateSpell(available))
-        //        {
-        //            if ((ob as CharacterInfo).CurrentHealth + available == CharacterInfo.MaxHealth)
-        //            {
-        //                CurrentMagicPower = 0;
-        //                CurrentHealth = CharacterInfo.MaxHealth;
-        //            }
-        //            if ((ob as CharacterInfo).CurrentHealth + available > CharacterInfo.MaxHealth)
-        //            {
-        //                CurrentHealth = CharacterInfo.MaxHealth;
-        //                CurrentMagicPower -= 2 * (CharacterInfo.MaxHealth - (ob as CharacterInfo).CurrentHealth);
-        //            }
-        //            if ((ob as CharacterInfo).CurrentHealth + available < CharacterInfo.MaxHealth)
-        //            {
-        //                CurrentMagicPower = 0;
-        //                CurrentHealth += available;
-        //            }
-        //        }
-
-        //        //if (ActivateSpell(neededmp))
-        //        //{
-        //        //	if (neededmp > 100 - (ob as CharacterInfo).CurrentHealth)
-        //        //	{
-        //        //		(ob as CharacterInfo).CurrentHealth = 100;
-        //        //		CuttentMagicPower -= neededmp;
-        //        //	}
-        //        //	else
-        //        //	{
-        //        //		CuttentMagicPower = 0;
-        //        //		(ob as CharacterInfo).CurrentHealth += neededmp * 2;
-        //        //	}
-        //        //}
-        //    }
-        //}
     }
 }

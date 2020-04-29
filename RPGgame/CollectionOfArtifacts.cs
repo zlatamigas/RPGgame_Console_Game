@@ -18,25 +18,24 @@ namespace RPGgame
         {
             renewability = false;
             bottle = size;
-            
-        }
-       override public void DoMAgicThing(MagicCharacter person)
-        {
-
             if (bottle == LiveBottle.small)
             {
-                person.CurrentHealth +=  10;
+                power= 10;
             }
             if (bottle == LiveBottle.medium)
             {
-                person.CurrentHealth += 25;
+                power = 25;
             }
             if (bottle == LiveBottle.big)
             {
-                person.CurrentHealth += 50;
+                power= 50;
             }
-            
         }
+       override public void DoMAgicThing(CharacterInfo person)
+       {
+            person.CurrentHealth += power;
+            power = 0;
+       }
     }
     //Бутылка с мертвой водой – увеличивает ману персонажа, владеющего
     //магией.Мана не может превысить максимальную величину, но артефакт
@@ -52,21 +51,25 @@ namespace RPGgame
         {
             renewability = false;
             bottle = size;
-            
-        }
-        override public void DoMAgicThing(MagicCharacter person)
-        {
             if (bottle == DeadBottle.small)
             {
-                person.CurrentMagicPower += 10;
+                power = 10;
             }
             if (bottle == DeadBottle.medium)
             {
-                person.CurrentMagicPower += 25;
+                power = 25;
             }
             if (bottle == DeadBottle.big)
             {
-                person.CurrentMagicPower += 50;
+                power = 50;
+            }
+        }
+        override public void DoMAgicThing(CharacterInfo person)
+        {
+            if (person is MagicCharacter)
+            {
+                (person as MagicCharacter).CurrentMagicPower += power;
+                power = 0;
             }
           
         }
@@ -83,12 +86,10 @@ namespace RPGgame
             renewability = true;
             power = 100;
         }
-        override public void DoMAgicThing(int Damage, MagicCharacter person) 
+        override public void DoMAgicThing(int Damage, CharacterInfo person) 
         {
-            if (Damage <= power) {
-                person.CurrentHealth -= Damage;
-                power -= Damage;
-            }
+            person.CurrentHealth -= Damage;
+            power -= Damage;
         }
     }
     //Декокт из лягушачьих лапок.Переводит какого-либо персонажа из состояния
@@ -98,9 +99,10 @@ namespace RPGgame
     {
         public FrogsFeet()
         {
+            power = 1;
             renewability = false;
         }
-       override public void DoMAgicThing( MagicCharacter person)
+       override public void DoMAgicThing(CharacterInfo person)
         {
             if (person.state == CharacterInfo.State.poisoned)
             {
@@ -108,9 +110,9 @@ namespace RPGgame
                 {
                     person.state = CharacterInfo.State.weakend;
                 }
-                
-                else   person.state = CharacterInfo.State.normal;
-                
+                else   
+                    person.state = CharacterInfo.State.normal;
+                power = 0;
             }
         }
     }
@@ -122,18 +124,19 @@ namespace RPGgame
     //Возобновляемый.
     class PoisonousSaliva : Artifacts
     {
-        public PoisonousSaliva()
-        {
+      public PoisonousSaliva()
+      {
             renewability = true;
-            power = 20;
-        }
-      override public void DoMAgicThing(MagicCharacter person)
+            power = 50;
+      }
+      override public void DoMAgicThing(int Damage, CharacterInfo person)
         {
-            person.CurrentHealth -= power;
+            person.CurrentHealth -= Damage;
             if (person.state == CharacterInfo.State.normal || person.state == CharacterInfo.State.weakend)
             {
                 person.state = CharacterInfo.State.poisoned;
-            }   
+            }
+            power -= Damage; ;
         }
     }
     //Глаз василиска.Переводит любого не мёртвого персонажа в состояние
@@ -142,14 +145,16 @@ namespace RPGgame
     {
         public BasiliskEye()
         {
+            power = 1;
             renewability = false;
         }
-      override public void DoMAgicThing( MagicCharacter person)
+      override public void DoMAgicThing(CharacterInfo person)
         {
             if (person.state != CharacterInfo.State.dead)
             {
                 person.state = CharacterInfo.State.paralyzed;
             }
+            power = 0;
         }
     }
     

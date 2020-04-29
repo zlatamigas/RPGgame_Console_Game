@@ -101,7 +101,8 @@ namespace RPGgame
 		{
 			if (ourspell.MinMan <= CurrentMagicPower)
 			{
-				ourspell.DoMAgicThing(expectedPower, target as MagicCharacter);//поменять потом на объект
+				if((target is CharacterInfo) || (target is NPC))
+					ourspell.DoMAgicThing(expectedPower, target);//поменять потом на объект
 				return true;
 			}
 			return false;

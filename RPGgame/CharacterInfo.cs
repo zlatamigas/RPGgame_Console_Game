@@ -52,7 +52,7 @@ namespace RPGgame
 		}
 
 		/*- максимальное значение для здоровья персонажа;*/
-		public static int MaxHealth = 100;
+		public static int MaxHealth = 1000;
 
 		/*- количество опыта, набранное персонажем.*/
 		public int Experiance { get; set; }
