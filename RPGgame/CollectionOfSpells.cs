@@ -10,7 +10,7 @@ namespace RPGgame
 
     class Addhelth : Spell//все проверки происходят в классе магии вроде
     {
-        Addhelth() 
+        public Addhelth() 
         {
             MinMan = 2;
             movement = false;
@@ -32,7 +32,7 @@ namespace RPGgame
 
     class ToCure : Spell
     {
-        ToCure() 
+        public ToCure() 
         {
             MinMan = 20;
             movement = false;
@@ -59,7 +59,7 @@ namespace RPGgame
 
     class Antidot : Spell
     {
-        Antidot()
+        public Antidot()
         {
             MinMan = 30;
             movement = false;
@@ -87,7 +87,7 @@ namespace RPGgame
 
     class Revive : Spell
     {
-        Revive()
+        public Revive()
         {
             MinMan = 150;
             movement = true;
@@ -116,7 +116,7 @@ namespace RPGgame
 
     class Armor : Spell
     {
-        Armor()
+        public Armor()
         {
             MinMan = 50;
             movement = true;
@@ -143,7 +143,7 @@ namespace RPGgame
     //величина здоровья становится равной 1. Заклинание требует 85 единиц маны.
     class NOtDie : Spell
     {
-        NOtDie()
+        public NOtDie()
         {
             MinMan = 85;
             movement = false;

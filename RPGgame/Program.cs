@@ -17,8 +17,7 @@ namespace RPGgame
                 CharacterInfo.Gender gender = CharacterInfo.Gender.male;
                 if (g == "м")
                     gender = CharacterInfo.Gender.male;
-                else
-                    if (g == "ж")
+                if (g == "ж")
                     gender = CharacterInfo.Gender.female;
                 else
                     throw new ArgumentException("Unknown gender!");
@@ -71,22 +70,23 @@ namespace RPGgame
                             switch (ans2)
                             {
                                 case "+":
-                                    Console.WriteLine("выполняется " + ans2);
+                                    hero.AddArtifact(Aqua);
+                                    Console.WriteLine("Добавленно!!");
                                     break;
                                 case "-":
-                                    Console.WriteLine("выполняется " + ans2);
+                                    Console.WriteLine("Добавленно!!");
                                     break;
                                 case "@":
-                                    Console.WriteLine("выполняется " + ans2);
+                                    Console.WriteLine("Добавленно!!");
                                     break;
                                 case "#":
-                                    Console.WriteLine("выполняется " + ans2);
+                                    Console.WriteLine("Добавленно!!");
                                     break;
                                 case "*":
-                                    Console.WriteLine("выполняется " + ans2);
+                                    Console.WriteLine("Добавленно!!");
                                     break;
                                 default:
-                                    Console.WriteLine("нет такого заклианния");
+                                    Console.WriteLine("нет такого артифакта!");
                                     break;
                             }
                             break;
@@ -144,7 +144,7 @@ namespace RPGgame
                             }
                             break;
                         case 5:
-                            Console.WriteLine("какой артефакт вы хотите приобрести" +
+                            Console.WriteLine("какой артефакт вы хотите использовать" +
                                "\nБутылка с живой водой(+)" +
                                "\nБутылка с мертвой водой(-)" +
                                "\nПосох «Молния»(@)" +
@@ -157,24 +157,57 @@ namespace RPGgame
                                 case "+":
                                     Console.WriteLine("На какой обьем (10 25 50)");
                                     int size = int.Parse(Console.ReadLine());
-                                    if(size == 10)//??????????????????????????????????????????
-                                    Aqua add = new Aqua(size);
+                                    #region /*if (size == 10)
+                                    //    LiveBottle s = Aqua.LiveBottle.small;
+                                    //if (size == 25)
+                                    //    LiveBottle s = Aqua.LiveBottle.medium;
+                                    //if (size == 50)
+                                    //    LiveBottle s = Aqua.LiveBottle.big;*/
+                                    #endregion
+                                    Aqua add = new Aqua(Aqua.LiveBottle.small);
                                     hero.ActivateArtifact(add,hero);
+                                    add.DoMAgicThing(hero);
+                                    Console.WriteLine("Использованно !!");
                                     break;
                                 case "-":
-                                    Console.WriteLine("выполняется " + ans);
+                                    Console.WriteLine("На какой обьем (10 25 50)");
+                                    int size1 = int.Parse(Console.ReadLine());
+                                    #region /*if (size == 10)
+                                    //    LiveBottle s = Aqua.LiveBottle.small;
+                                    //if (size == 25)
+                                    //    LiveBottle s = Aqua.LiveBottle.medium;
+                                    //if (size == 50)
+                                    //    LiveBottle s = Aqua.LiveBottle.big;*/
+                                    #endregion
+                                    Deadwater dead = new Deadwater(Deadwater.DeadBottle.small);
+                                    hero.ActivateArtifact(dead, hero);
+                                    dead.DoMAgicThing(hero);
+                                    Console.WriteLine("Использованно !!");
                                     break;
                                 case "@":
-                                    Console.WriteLine("выполняется " + ans);
+                                    LightningStaff lightning = new LightningStaff();
+                                    hero.ActivateArtifact(lightning, hero);
+                                    Console.WriteLine("С какой мощностью вы хотите его использовать");
+                                    int uron = int.Parse(Console.ReadLine());
+                                    lightning.DoMAgicThing(uron,hero);//сделать не героя а врага
+                                    Console.WriteLine("Использованно !!");
                                     break;
                                 case "#":
-                                    Console.WriteLine("выполняется " + ans);
+                                    FrogsFeet frogs = new FrogsFeet();
+                                    hero.ActivateArtifact(frogs , hero);
+                                    frogs.DoMAgicThing(hero);
+                                    Console.WriteLine("Использованно !!");
                                     break;
                                 case "*":
-                                    Console.WriteLine("выполняется " + ans);
+                                    PoisonousSaliva poisonous = new PoisonousSaliva();
+                                    hero.ActivateArtifact(poisonous, hero);
+                                    Console.WriteLine("С какой мощностью вы хотите его использовать");
+                                    int mosch = int.Parse(Console.ReadLine());
+                                    poisonous.DoMAgicThing(mosch,hero);//сделать не героя а врага
+                                    Console.WriteLine("Использованно !!");
                                     break;
                                 default:
-                                    Console.WriteLine("нет такого заклианния");
+                                    Console.WriteLine("нет такого");
                                     break;
                             }
                             break;
@@ -186,26 +219,45 @@ namespace RPGgame
                                "\nБроня(#)" +
                                "\nОтомри!(*)" +
                                "\nПротивоядие(%)");
-                            string ans = Console.ReadLine();
-                            switch (ans)
+                            string ans3 = Console.ReadLine();
+                            switch (ans3)
                             {
                                 case "+":
-                                    Console.WriteLine("выполняется " + ans);
+                                    Addhelth addhelth = new Addhelth();
+                                    hero.ActivateSpell(addhelth, hero);
+                                    Console.WriteLine("С какой силой вы хотите его использовать");
+                                    int dam = int.Parse(Console.ReadLine());
+                                    addhelth.DoMAgicThing(dam, hero);//селать не героя а врага
+                                    Console.WriteLine("Использованно !!");
                                     break;
-                                case "^":
-                                    Console.WriteLine("выполняется " + ans);
+                                case "-":
+                                    ToCure cure = new ToCure();
+                                    hero.ActivateSpell(cure, hero);
+                                    cure.DoMAgicThing(hero);
+                                    Console.WriteLine("Использованно !!");
                                     break;
                                 case "@":
-                                    Console.WriteLine("выполняется " + ans);
+                                    Antidot antidot = new Antidot();
+                                    hero.ActivateSpell(antidot, hero);
+                                    antidot.DoMAgicThing(hero);
+                                    Console.WriteLine("Использованно !!");
                                     break;
                                 case "#":
-                                    Console.WriteLine("выполняется " + ans);
+                                    Revive revive = new Revive();
+                                    hero.ActivateSpell(revive, hero);
+                                    revive.DoMAgicThing(hero);
+                                    Console.WriteLine("Использованно !!");
                                     break;
                                 case "*":
-                                    Console.WriteLine("выполняется " + ans);
+                                    Armor armor = new Armor();
+                                    hero.ActivateSpell(armor, hero);
+                                    Console.WriteLine("С какой силой вы хотите его использовать");
+                                    int dameg = int.Parse(Console.ReadLine());
+                                    armor.DoMAgicThing(dameg,hero);
+                                    Console.WriteLine("Использованно !!");
                                     break;
                                 default:
-                                    Console.WriteLine("нет такого заклианния");
+                                    Console.WriteLine("нет такого");
                                     break;
                             }
                             break;
