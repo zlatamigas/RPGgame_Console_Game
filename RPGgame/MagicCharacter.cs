@@ -43,7 +43,7 @@ namespace RPGgame
                 if (ourspell.MinMan <= CurrentMagicPower)
                     if (expectedPower >= ourspell.MinMan && expectedPower <= CurrentMagicPower)
                     {
-                        this.CurrentMagicPower -= expectedPower;
+                        CurrentMagicPower -= expectedPower;
                         ourspell.DoMAgicThing(expectedPower, target);
                         return true;
                     }
@@ -54,7 +54,7 @@ namespace RPGgame
             if (learnedSpells.Contains(ourspell))
                 if (ourspell.MinMan <= CurrentMagicPower)
                 {
-                    this.CurrentMagicPower -= ourspell.MinMan;
+                    CurrentMagicPower -= ourspell.MinMan;
                     ourspell.DoMAgicThing(target);
                     return true;
                 }
