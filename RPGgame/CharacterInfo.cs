@@ -5,7 +5,6 @@ using System.Collections;
 
 namespace RPGgame
 {
-	/*Создать класс «персонаж ролевой игры». Включить в описание класса следующие поля:*/
 	public class CharacterInfo : IComparable
 	{
 		public int Protection { get; set; }
@@ -70,7 +69,7 @@ namespace RPGgame
 		public CharacterInfo(string aname, Gender agender, Race arace)
 		{
 			ID = next_ID++;
-			Name = aname;//отдельно пользовательское и имя перса(?)
+			Name = aname;
 
 			gender = agender;
 			curHealth = MaxHealth;
@@ -186,14 +185,11 @@ namespace RPGgame
 					break;
 			}
 
-			return string.Format($"ID: {this.ID}\nИмя персонажа: {this.Name}\n" +
+			return string.Format($"ID: {ID}\nИмя персонажа: {Name}\n" +
 				$"Раса: {race}\nПол: {gend}\n" +
-				$"Возраст: {this.age}\nКоличество здоровья: {this.curHealth} hp\n" +
-				$"Состояние здоровья: {state}\nКоличество опытв: {this.Experiance} xp");
+				$"Возраст: {age}\nКоличество здоровья: {curHealth} hp\n" +
+				$"Состояние здоровья: {state}\nКоличество опытв: {Experiance} xp");
 		}
-
-
-
 
 		public bool ActivateArtifact(Artifacts ourartifact, CharacterInfo target)
 		{
@@ -222,8 +218,7 @@ namespace RPGgame
 			return false;
 		}
 
-
-		ArrayList inventory;
+		public ArrayList inventory;//warning
 		public bool AddArtifact(Artifacts art) {
 			if (inventory.Count < 20) {
 				inventory.Add(art);

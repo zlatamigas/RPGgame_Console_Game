@@ -145,6 +145,7 @@ namespace RPGgame
     {
         public BasiliskEye()
         {
+            Name = "Глаз василиска";
             power = 1;
             renewability = false;
         }

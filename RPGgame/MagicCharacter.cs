@@ -68,7 +68,7 @@ namespace RPGgame
 		значением маны.*/
 
 
-        ArrayList learnedSpells;
+        public ArrayList learnedSpells;
         public bool LearnSpell(Spell spell)
         {
             if (!learnedSpells.Contains(spell))
