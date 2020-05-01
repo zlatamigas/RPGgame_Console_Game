@@ -11,7 +11,8 @@ namespace RPGgame
                 Console.WriteLine("Введите имя: ");
                 string name = Console.ReadLine();
                 if (name == "")
-                    throw new ArgumentException("Empty name!");
+                    throw new ArgumentException("Пустое имя!");
+
                 Console.WriteLine("Выберите пол(м/ж): ");
                 string g = Console.ReadLine();
                 CharacterInfo.Gender gender = CharacterInfo.Gender.male;
@@ -20,7 +21,8 @@ namespace RPGgame
                 else if (g == "ж")
                     gender = CharacterInfo.Gender.female;
                 else
-                    throw new ArgumentException("Unknown gender!");
+                    throw new ArgumentException("Неизвестный пол!");
+
                 Console.WriteLine("Выберете рассу:(человек(ч),эльф(э), орк(о), маг(м)) ");
                 string r = Console.ReadLine();
                 CharacterInfo.Race rassa = CharacterInfo.Race.human;
@@ -30,13 +32,15 @@ namespace RPGgame
                     "ч" => CharacterInfo.Race.human,
                     "о" => CharacterInfo.Race.ork,
                     "м" => CharacterInfo.Race.wizard,
-                    _ => throw new ArgumentException("Unknown race!"),
+                    _ => throw new ArgumentException("Неизвестная раса!"),
                 };
+
                 Console.WriteLine("\n/////////////////////////////////////////////////////////////////////////////////////////////////\n");
                 Console.WriteLine("Вам на встречу идет против ник но у нас ничего нет ");
 
                 var boss = new MagicCharacter("Босс", CharacterInfo.Gender.male, CharacterInfo.Race.ork);
                 var hero = new MagicCharacter(name, gender, rassa);
+
                 int otvet = 0;
                 do
                 {
@@ -47,7 +51,7 @@ namespace RPGgame
                     }
                     Console.WriteLine("Что вы хотите сделать: \n");
                     Console.WriteLine(" 1 - Текущая информация о герое\n" +
-                                  " 2 - Посмотреть характеристику противника\n" +
+                                  " 2 - Посмотреть характеристики противника\n" +
                                   " 3 - Пополнить артефакты\n" +
                                   " 4 - Использовать артефакт\n" +
                                   " 5 - Посмотреть инвентарь\n" +
@@ -56,17 +60,17 @@ namespace RPGgame
                                   " 8 - Использовать заклинание (только если вы маг)\n" +
                                   " 9 - Посмотреть выученные заклинания(только если вы маг)\n" +
                                   "10 - Забыть заклинание (только если вы маг)\n" +
-                                  "0 - Завершить игру\n");
+                                  " 0 - Завершить игру\n");
                     otvet = int.Parse(Console.ReadLine());
 
                     switch (otvet)
                     {
-                        case 1://
+                        case 1:
                             {
                                 Console.WriteLine(hero.ToString());
                                 break;
                             }
-                        case 2://
+                        case 2:
                             {
                                 Console.WriteLine(boss.ToString());
                                 break;
@@ -155,13 +159,18 @@ namespace RPGgame
                                             break;
                                         }
                                     default:
-                                        Console.WriteLine("Нет такого артифакта!");
+                                        Console.WriteLine("Нет такого артефакта!");
                                         break;
                                 }
                                 break;
                             }
                         case 4://
                             {
+                                if (hero.inventory.Count == 0) {
+                                    Console.WriteLine("Инвентарь пуст!");
+                                    break;
+                                }
+
                                 Console.WriteLine("Какой артефакт вы хотите использовать" +
                                    "\nБутылка с живой водой(+)" +
                                    "\nБутылка с мертвой водой(-)" +
@@ -170,6 +179,7 @@ namespace RPGgame
                                    "\nЯдовитая слюна(*)" +
                                    "\nГлаз василиска(%)");
                                 string ans5 = Console.ReadLine();
+
                                 switch (ans5)
                                 {
                                     case "+":
@@ -241,15 +251,22 @@ namespace RPGgame
                                         {
                                             Console.WriteLine("С какой мощностью вы хотите его использовать");
                                             int uron = int.Parse(Console.ReadLine());
-                                            foreach (var x in hero.inventory)
-                                                if (x is LightningStaff)
-                                                    if (hero.ActivateArtifact(uron, x as LightningStaff, hero))
+
+                                            for (int i = 0; i < hero.inventory.Count; i++)
+                                            {
+                                                if (hero.inventory[i] is LightningStaff)
+                                                    if (hero.ActivateArtifact(uron, hero.inventory[i] as LightningStaff, hero))
                                                     {
                                                         Console.WriteLine("Использовано!!");
                                                         break;
                                                     }
-                                                    else
-                                                        Console.WriteLine("Невозможно использовать!!!");
+
+                                                if (i == hero.inventory.Count - 1)
+                                                {
+                                                    Console.WriteLine("Подходящий для использования артефакт не найден");
+                                                    break;
+                                                }
+                                            }
                                             break;
                                         }
                                     case "#":
@@ -268,16 +285,23 @@ namespace RPGgame
                                     case "*":
                                         {
                                             Console.WriteLine("С какой мощностью вы хотите его использовать");
-                                            int mosch = int.Parse(Console.ReadLine());
-                                            foreach (var x in hero.inventory)
-                                                if (x is PoisonousSaliva)
-                                                    if (hero.ActivateArtifact(mosch, x as PoisonousSaliva, hero))
+                                            int uron = int.Parse(Console.ReadLine());
+
+                                            for (int i = 0; i < hero.inventory.Count; i++)
+                                            {
+                                                if (hero.inventory[i] is PoisonousSaliva)
+                                                    if (hero.ActivateArtifact(uron, hero.inventory[i] as PoisonousSaliva, hero))
                                                     {
                                                         Console.WriteLine("Использовано!!");
                                                         break;
                                                     }
-                                                    else
-                                                        Console.WriteLine("Невозможно использовать!!!");
+
+                                                if (i == hero.inventory.Count - 1)
+                                                {
+                                                    Console.WriteLine("Подходящий для использования артефакт не найден");
+                                                    break;
+                                                }
+                                            }
                                             break;
                                         }
                                     default:
@@ -297,131 +321,45 @@ namespace RPGgame
                                     Console.WriteLine($"{x}\n");
                                 break;
                             }
-                        case 6://
+                        case 6:
                             {
-                                Console.WriteLine("какой артефакт вы хотите выбросить" +
-                                   "\nБутылка с живой водой(+)" +
-                                   "\nБутылка с мертвой водой(-)" +
-                                   "\nПосох «Молния»(@)" +
-                                   "\nДекокт из лягушачьих лапок(#)" +
-                                   "\nЯдовитая слюна(*)" +
-                                   "\nГлаз василиска(%)");
-                                string ans9 = Console.ReadLine();
-                                switch (ans9)
+                                if (hero.inventory.Count == 0)
                                 {
-                                    case "+":
-                                        {
-                                            Console.WriteLine("На какой обьем (10 25 50)");
-                                            int size = int.Parse(Console.ReadLine());
-
-                                            Aqua.LiveBottle s = Aqua.LiveBottle.small;
-
-                                            if (size != 10 && size != 25 && size != 50)
-                                            {
-                                                Console.WriteLine("Бутылки такого размера нету!");
-                                                break;
-                                            }
-                                            if (size == 25)
-                                                s = Aqua.LiveBottle.medium;
-                                            if (size == 50)
-                                                s = Aqua.LiveBottle.big;
-
-                                            foreach (var x in hero.inventory)
-                                                if (x is Aqua)
-                                                    if ((x as Aqua).bottle == s)
-                                                    {
-                                                        if (hero.ThrowArtifact(x as Aqua))
-                                                        {
-                                                            Console.WriteLine("Выброшенно!!");
-                                                            break;
-                                                        }
-                                                        else
-                                                            Console.WriteLine("Невозможно Выбросить!!!");
-                                                        break;
-                                                    }
-                                            break;
-                                        }
-                                    case "-":
-                                        {
-                                            Console.WriteLine("На какой обьем (10 25 50)");
-                                            int size = int.Parse(Console.ReadLine());
-
-                                            Deadwater.DeadBottle s = Deadwater.DeadBottle.small;
-
-                                            if (size != 10 && size != 25 && size != 50)
-                                            {
-                                                Console.WriteLine("Бутылки такого размера нету!");
-                                                break;
-                                            }
-                                            if (size == 25)
-                                                s = Deadwater.DeadBottle.medium;
-                                            if (size == 50)
-                                                s = Deadwater.DeadBottle.big;
-
-                                            foreach (var x in hero.inventory)
-                                                if (x is Deadwater)
-                                                    if ((x as Deadwater).bottle == s)
-                                                    {
-                                                        if (hero.ActivateArtifact((x as Deadwater), hero))
-                                                        {
-                                                            Console.WriteLine("Выброшенно!!");
-                                                            break;
-                                                        }
-                                                        else
-                                                            Console.WriteLine("Невозможно Выбросить!!!");
-                                                        break;
-                                                    }
-                                            break;
-                                        }
-                                    case "@":
-                                        {
-                                            foreach (var x in hero.inventory)
-                                                if (x is LightningStaff)
-                                                    if (hero.ThrowArtifact(x as LightningStaff))
-                                                    {
-                                                        Console.WriteLine("Выброшенно!!");
-                                                        break;
-                                                    }
-                                                    else
-                                                        Console.WriteLine("Невозможно Выбросить!!!");
-                                            break;
-                                        }
-                                    case "#":
-                                        {
-                                            foreach (var x in hero.inventory)
-                                                if (x is FrogsFeet)
-                                                    if (hero.ThrowArtifact(x as FrogsFeet))
-                                                    {
-                                                        Console.WriteLine("Выброшенно!!");
-                                                        break;
-                                                    }
-                                                    else
-                                                        Console.WriteLine("Невозможно Выбросить!!!");
-                                            break;
-                                        }
-                                    case "*":
-                                        {
-                                            foreach (var x in hero.inventory)
-                                                if (x is PoisonousSaliva)
-                                                    if (hero.ThrowArtifact(x as PoisonousSaliva))
-                                                    {
-                                                        Console.WriteLine("Выброшенно!!");
-                                                        break;
-                                                    }
-                                                    else
-                                                        Console.WriteLine("Невозможно Выбросить!!!");
-                                            break;
-                                        }
-                                    default:
-                                        Console.WriteLine("В инвентаре нет такого артефакта?");
-                                        break;
+                                    Console.WriteLine("Инвентарь пуст!");
+                                    break;
                                 }
+
+                                int ans9;
+                                Console.WriteLine("Для обращения к элементам вашего инвентаря, используйте приведенные ниже индексы:");
+                                for (int i = 0; i < hero.inventory.Count; i++)
+                                    Console.WriteLine($"{hero.inventory[i]} - {i}");
+
+                                Console.Write("Введите индекс удаляемого элемента: ");
+
+                                ans9 = int.Parse(Console.ReadLine());
+
+                                if (ans9 >= 0 && ans9 < hero.inventory.Count) {
+                                    if (hero.ThrowArtifact(hero.inventory[ans9] as Artifacts))
+                                    {
+                                        Console.WriteLine("Артефакт выброшен!!");
+                                        break;
+                                    }
+                                    else
+                                        Console.WriteLine("Выбросить артефакт не удалось!!");
+                                }
+                                Console.WriteLine("Недействительный индекс!!");
+
                                 break;
                             }
-                        case 7://
+                        case 7:
                             {
                                 if (hero.race == CharacterInfo.Race.wizard)
                                 {
+                                    if (hero.learnedSpells.Count == 5) {
+                                        Console.WriteLine("Максимальное количество заклинаний выучено!!");
+                                        break;
+                                    }
+
                                     Console.WriteLine("Какое заклиание вы хотите выучить" +
                                        "\nДобавить здоровье(+)" +
                                        "\nВылечить(^)" +
@@ -430,50 +368,51 @@ namespace RPGgame
                                        "\nОтомри!(*)" +
                                        "\nПротивоядие(%)");
                                     string ans2 = Console.ReadLine();
+
                                     switch (ans2)
                                     {
                                         case "+":
                                             {
                                                 if (hero.LearnSpell(new Addhelth()))
-                                                    Console.WriteLine("Добавленно !!");
+                                                    Console.WriteLine("Выучено!!");
                                                 else
-                                                    Console.WriteLine("Не достаточно места!!!");
+                                                    Console.WriteLine("Было выучено ранее!!!");
                                                 break;
                                             }
                                         case "^":
                                             {
                                                 if (hero.LearnSpell(new ToCure()))
-                                                    Console.WriteLine("Добавленно !!");
+                                                    Console.WriteLine("Выучено!!");
                                                 else
-                                                    Console.WriteLine("Не достаточно места!!!");
+                                                    Console.WriteLine("Было выучено ранее!!!");
                                                 break;
                                             }
                                         case "@":
                                             {
                                                 if (hero.LearnSpell(new Antidot()))
-                                                    Console.WriteLine("Добавленно !!");
+                                                    Console.WriteLine("Выучено!!");
                                                 else
-                                                    Console.WriteLine("Не достаточно места!!!");
+                                                    Console.WriteLine("Было выучено ранее!!!");
                                                 break;
                                             }
                                         case "#":
                                             {
                                                 if (hero.LearnSpell(new Revive()))
-                                                    Console.WriteLine("Добавленно !!");
+                                                    Console.WriteLine("Выучено!!");
                                                 else
-                                                    Console.WriteLine("Не достаточно места!!!");
+                                                    Console.WriteLine("Было выучено ранее!!!");
                                                 break;
                                             }
                                         case "*":
                                             {
                                                 if (hero.LearnSpell(new Armor()))
-                                                    Console.WriteLine("Добавленно !!");
+                                                    Console.WriteLine("Выучено!!");
                                                 else
-                                                    Console.WriteLine("Не достаточно места!!!");
+                                                    Console.WriteLine("Было выучено ранее!!!");
                                                 break;
                                             }
                                         default:
-                                            Console.WriteLine("нет такого заклинания!");
+                                            Console.WriteLine("Нет такого заклинания!");
                                             break;
                                     }
                                 }
