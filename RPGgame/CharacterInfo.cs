@@ -193,7 +193,7 @@ namespace RPGgame
 			return string.Format($"ID: {ID}\nИмя персонажа: {Name}\n" +
 				$"Раса: {race}\nПол: {gend}\n" +
 				$"Возраст: {age}\nКоличество здоровья: {curHealth} hp\n" +
-				$"Состояние здоровья: {state}\nКоличество опыта: {Experiance} xp");
+				$"Состояние здоровья: {state}\nКоличество опыта: {Experiance} xp\n");
 		}
 
 		public bool ActivateArtifact(Artifacts ourartifact, CharacterInfo target)

@@ -61,6 +61,10 @@ namespace RPGgame
             return false;
         }
 
+        public override string ToString()
+        {
+            return base.ToString() + $"MP: {CurrentMagicPower}\n";
+        }
 
         /*Некоторые заклинания обладают силой, причем сила заклинания задается
 		волшебником в момент его произнесения. Расход маны в этом случае

@@ -38,13 +38,13 @@ namespace RPGgame
                 Console.WriteLine("\n/////////////////////////////////////////////////////////////////////////////////////////////////\n");
                 Console.WriteLine("Вам на встречу идет против ник но у нас ничего нет ");
 
-                var boss = new MagicCharacter("Босс", CharacterInfo.Gender.male, CharacterInfo.Race.ork);
+                var boss = new CharacterInfo("Босс", CharacterInfo.Gender.male, CharacterInfo.Race.ork);
                 var hero = new MagicCharacter(name, gender, rassa);
 
                 int otvet = 0;
                 do
                 {
-                    if(boss.CurrentHealth == 0)
+                    if (boss.CurrentHealth == 0)
                     {
                         Console.WriteLine("Вы убили босса ))))");
                         return;
@@ -164,9 +164,10 @@ namespace RPGgame
                                 }
                                 break;
                             }
-                        case 4://
+                        case 4:
                             {
-                                if (hero.inventory.Count == 0) {
+                                if (hero.inventory.Count == 0)
+                                {
                                     Console.WriteLine("Инвентарь пуст!");
                                     break;
                                 }
@@ -338,7 +339,8 @@ namespace RPGgame
 
                                 ans9 = int.Parse(Console.ReadLine());
 
-                                if (ans9 >= 0 && ans9 < hero.inventory.Count) {
+                                if (ans9 >= 0 && ans9 < hero.inventory.Count)
+                                {
                                     if (hero.ThrowArtifact(hero.inventory[ans9] as Artifacts))
                                     {
                                         Console.WriteLine("Артефакт выброшен!!");
@@ -355,7 +357,8 @@ namespace RPGgame
                             {
                                 if (hero.race == CharacterInfo.Race.wizard)
                                 {
-                                    if (hero.learnedSpells.Count == 5) {
+                                    if (hero.learnedSpells.Count == 5)
+                                    {
                                         Console.WriteLine("Максимальное количество заклинаний выучено!!");
                                         break;
                                     }
@@ -422,11 +425,14 @@ namespace RPGgame
                                 }
                                 break;
                             }
-                        case 8://
+                        case 8:
                             {
-                                if (hero.race == CharacterInfo.Race.wizard)
+                                if (!(hero is MagicCharacter))
                                 {
-                                    Console.WriteLine("Какое использовать заклиание" +
+                                    Console.WriteLine("Перонаж не маг!!");
+                                    break;
+                                }
+                                Console.WriteLine("Какое использовать заклиание" +
                                        "\nДобавить здоровье(+)" +
                                        "\nВылечить(^)" +
                                        "\nОживить(@)" +
@@ -434,98 +440,96 @@ namespace RPGgame
                                        "\nОтомри!(*)" +
                                        "\nПротивоядие(%)");
                                     string ans6 = Console.ReadLine();
-                                    switch (ans6)
-                                    {
-                                        case "+":
-                                            {
-                                                Console.WriteLine("С какой силой вы хотите его использовать");
-                                                int dam = int.Parse(Console.ReadLine());
-                                                foreach (var x in hero.learnedSpells)
-                                                    if (x is Addhelth)
-                                                        if (hero.ActivateSpell(dam, x as Addhelth, hero))
-                                                        {
-                                                            Console.WriteLine("Использовано!!");
-                                                            break;
-                                                        }
-                                                        else
-                                                            Console.WriteLine("Невозможно использовать!!!");
-                                                break;
-                                            }
-                                        case "-":
-                                            {
-                                                foreach (var x in hero.learnedSpells)
-                                                    if (x is ToCure)
-                                                        if (hero.ActivateSpell(x as ToCure, hero))
-                                                        {
-                                                            Console.WriteLine("Использовано!!");
-                                                            break;
-                                                        }
-                                                        else
-                                                            Console.WriteLine("Невозможно использовать!!!");
-                                                break;
-                                            }
-                                        case "@":
-                                            {
-                                                foreach (var x in hero.learnedSpells)
-                                                    if (x is Antidot)
-                                                        if (hero.ActivateSpell(x as Antidot, hero))
-                                                        {
-                                                            Console.WriteLine("Использовано!!");
-                                                            break;
-                                                        }
-                                                        else
-                                                            Console.WriteLine("Невозможно использовать!!!");
-                                                break;
-                                            }
-                                        case "#":
-                                            {
-                                                Console.WriteLine("С какой силой вы хотите его использовать");
-                                                int dam = int.Parse(Console.ReadLine());
-                                                foreach (var x in hero.learnedSpells)
-                                                    if (x is Armor)
-                                                        if (hero.ActivateSpell(dam, x as Armor, hero))
-                                                        {
-                                                            Console.WriteLine("Использовано!!");
-                                                            break;
-                                                        }
-                                                        else
-                                                            Console.WriteLine("Невозможно использовать!!!");
-                                                break;
-                                            }
-                                        case "*":
-                                            {
-                                                foreach (var x in hero.learnedSpells)
-                                                    if (x is NOtDie)
-                                                        if (hero.ActivateSpell(x as NOtDie, hero))
-                                                        {
-                                                            Console.WriteLine("Использовано!!");
-                                                            break;
-                                                        }
-                                                        else
-                                                            Console.WriteLine("Невозможно использовать!!!");
-                                                break;
-                                            }
-                                        case "%":
-                                            {
-                                                foreach (var x in hero.learnedSpells)
-                                                    if (x is Antidot)
-                                                        if (hero.ActivateSpell(x as Antidot, hero))
-                                                        {
-                                                            Console.WriteLine("Использовано!!");
-                                                            break;
-                                                        }
-                                                        else
-                                                            Console.WriteLine("Невозможно использовать!!!");
-                                                break;
-                                            }
-                                        default:
-                                            Console.WriteLine("нет такого заклинания");
+                                switch (ans6)
+                                {
+                                    case "+":
+                                        {
+                                            Console.WriteLine("С какой силой вы хотите его использовать");
+                                            int dam = int.Parse(Console.ReadLine());
+                                            foreach (var x in hero.learnedSpells)
+                                                if (x is Addhelth)
+                                                    if (hero.ActivateSpell(dam, x as Addhelth, hero))
+                                                    {
+                                                        Console.WriteLine("Использовано!!");
+                                                        break;
+                                                    }
+                                                    else
+                                                        Console.WriteLine("Невозможно использовать!!!");
                                             break;
-                                    }
+                                        }
+                                    case "-":
+                                        {
+                                            foreach (var x in hero.learnedSpells)
+                                                if (x is ToCure)
+                                                    if (hero.ActivateSpell(x as ToCure, hero))
+                                                    {
+                                                        Console.WriteLine("Использовано!!");
+                                                        break;
+                                                    }
+                                                    else
+                                                        Console.WriteLine("Невозможно использовать!!!");
+                                            break;
+                                        }
+                                    case "@":
+                                        {
+                                            foreach (var x in hero.learnedSpells)
+                                                if (x is Antidot)
+                                                    if (hero.ActivateSpell(x as Antidot, hero))
+                                                    {
+                                                        Console.WriteLine("Использовано!!");
+                                                        break;
+                                                    }
+                                                    else
+                                                        Console.WriteLine("Невозможно использовать!!!");
+                                            break;
+                                        }
+                                    case "#":
+                                        {
+                                            Console.WriteLine("С какой силой вы хотите его использовать");
+                                            int dam = int.Parse(Console.ReadLine());
+                                            foreach (var x in hero.learnedSpells)
+                                                if (x is Armor)
+                                                    if (hero.ActivateSpell(dam, x as Armor, hero))
+                                                    {
+                                                        Console.WriteLine("Использовано!!");
+                                                        break;
+                                                    }
+                                                    else
+                                                        Console.WriteLine("Невозможно использовать!!!");
+                                            break;
+                                        }
+                                    case "*":
+                                        {
+                                            foreach (var x in hero.learnedSpells)
+                                                if (x is NOtDie)
+                                                    if (hero.ActivateSpell(x as NOtDie, hero))
+                                                    {
+                                                        Console.WriteLine("Использовано!!");
+                                                        break;
+                                                    }
+                                                    else
+                                                        Console.WriteLine("Невозможно использовать!!!");
+                                            break;
+                                        }
+                                    case "%":
+                                        {
+                                            foreach (var x in hero.learnedSpells)
+                                                if (x is Antidot)
+                                                    if (hero.ActivateSpell(x as Antidot, hero))
+                                                    {
+                                                        Console.WriteLine("Использовано!!");
+                                                        break;
+                                                    }
+                                                    else
+                                                        Console.WriteLine("Невозможно использовать!!!");
+                                            break;
+                                        }
+                                    default:
+                                        Console.WriteLine("нет такого заклинания");
+                                        break;
                                 }
-                                else
-                                    Console.WriteLine("вы не маг!!!");
                                 break;
+                                
                             }
                         case 9:
                             {
@@ -537,119 +541,55 @@ namespace RPGgame
                                         break;
                                     }
                                     foreach (var x in hero.learnedSpells)
-                                        Console.WriteLine($"{x}\n");                           
+                                        Console.WriteLine($"{x}\n");
                                 }
                                 else
                                     Console.WriteLine("Вы не маг!!!");
                                 break;
-                            }               
-                        case 10://
+                            }
+                        case 10:
                             {
-                                if (hero.race == CharacterInfo.Race.wizard)
+                                if (!(hero is MagicCharacter))
                                 {
-                                    Console.WriteLine("Какое заклинание вы хотите забыть" +
-                                       "\nДобавить здоровье(+)" +
-                                       "\nВылечить(^)" +
-                                       "\nОживить(@)" +
-                                       "\nБроня(#)" +
-                                       "\nОтомри!(*)" +
-                                       "\nПротивоядие(%)");
-                                    string memory = Console.ReadLine();
-                                    switch (memory)
-                                    {
-                                        case "+":
-                                            {
-                                                foreach (var x in hero.learnedSpells)
-                                                    if (x is Addhelth)
-                                                        if (hero.ForgetSpell(x as Addhelth))
-                                                        {
-                                                            Console.WriteLine("Забыто!!");
-                                                            break;
-                                                        }
-                                                        else
-                                                            Console.WriteLine("Такого заклинания вы еще не знаете!!!");
-                                                break;
-                                            }
-                                        case "-":
-                                            {
-                                                foreach (var x in hero.learnedSpells)
-                                                    if (x is ToCure)
-                                                        if (hero.ForgetSpell(x as ToCure))
-                                                        {
-                                                            Console.WriteLine("Забыто!!");
-                                                            break;
-                                                        }
-                                                        else
-                                                            Console.WriteLine("Такого заклинания вы еще не знаете!!!");
-                                                break;
-                                            }
-                                        case "@":
-                                            {
-                                                foreach (var x in hero.learnedSpells)
-                                                    if (x is Antidot)
-                                                        if (hero.ForgetSpell(x as Antidot))
-                                                        {
-                                                            Console.WriteLine("Забыто!!");
-                                                            break;
-                                                        }
-                                                        else
-                                                            Console.WriteLine("Такого заклинания вы еще не знаете!!!");
-                                                break;
-                                            }
-                                        case "#":
-                                            {
-                                                foreach (var x in hero.learnedSpells)
-                                                    if (x is Armor)
-                                                        if (hero.ForgetSpell(x as Armor))
-                                                        {
-                                                            Console.WriteLine("Забыто!!");
-                                                            break;
-                                                        }
-                                                        else
-                                                            Console.WriteLine("Такого заклинания вы еще не знаете!!!");
-                                                break;
-                                            }
-                                        case "*":
-                                            {
-                                                foreach (var x in hero.learnedSpells)
-                                                    if (x is NOtDie)
-                                                        if (hero.ForgetSpell(x as NOtDie))
-                                                        {
-                                                            Console.WriteLine("Забыто!!");
-                                                            break;
-                                                        }
-                                                        else
-                                                            Console.WriteLine("Такого заклинания вы еще не знаете!!!");
-                                                break;
-                                            }
-                                        case "%":
-                                            {
-                                                foreach (var x in hero.learnedSpells)
-                                                    if (x is Antidot)
-                                                        if (hero.ForgetSpell(x as Antidot))
-                                                        {
-                                                            Console.WriteLine("Забыто!!");
-                                                            break;
-                                                        }
-                                                        else
-                                                            Console.WriteLine("Такого заклинания вы еще не знаете!!!");
-                                                break;
-                                            }
-                                        default:
-                                            Console.WriteLine("нет такого заклинания");
-                                            break;
-                                    }
+                                    Console.WriteLine("Перонаж не маг!!");
+                                    break;
                                 }
-                                else
-                                    Console.WriteLine("вы не маг!!!");
+                                if (hero.learnedSpells.Count == 0)
+                                {
+                                    Console.WriteLine("Вы не знаете никаких заклинаний!");
+                                    break;
+                                }
+
+                                int ans10;
+                                Console.WriteLine("Для обращения к изученным заклинаниям, используйте приведенные ниже индексы:");
+                                for (int i = 0; i < hero.learnedSpells.Count; i++)
+                                    Console.WriteLine($"{hero.learnedSpells[i]} - {i}");
+
+                                Console.Write("Введите индекс удаляемого заклинания: ");
+                                ans10 = int.Parse(Console.ReadLine());
+
+                                if (ans10 >= 0 && ans10 < hero.learnedSpells.Count)
+                                {
+                                    if (hero.ForgetSpell(hero.learnedSpells[ans10] as Spell))
+                                    {
+                                        Console.WriteLine("Зкленание забыто!!");
+                                        break;
+                                    }
+                                    else
+                                        Console.WriteLine("Забыть невозможно!!");
+                                }
+                                Console.WriteLine("Недействительный индекс!!");
+
                                 break;
-                            }   
+                            }
+                        case 0:
+                            return;
                         default:
                             Console.WriteLine("Такой команды нет!!");
                             break;
                     }
                     Console.WriteLine("\n/////////////////////////////////////////////////////////////////////////////////////////////////\n");
-                } while (otvet != 0);
+                } while (true);
             }
             catch (ArgumentException ag)
             {
