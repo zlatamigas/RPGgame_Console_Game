@@ -95,17 +95,17 @@ namespace RPGgame
         }
         override public void DoMAgicThing(CharacterInfo person)
         {
-            MinMan = 150;
             if (person.state == CharacterInfo.State.dead)
             {
-                if (person.CurrentHealth < 10)
-                {
-                    person.state = CharacterInfo.State.weakend;
-                }
-                if (person.CurrentHealth >= 10)
-                {
-                    person.state = CharacterInfo.State.normal;
-                }
+                //if (person.CurrentHealth < 10)
+                //{
+                //    person.state = CharacterInfo.State.weakend;
+                //}
+                //if (person.CurrentHealth >= 10)
+                //{
+                //    person.state = CharacterInfo.State.normal;
+                //}
+
                 person.CurrentHealth = 1;
             }
         }
