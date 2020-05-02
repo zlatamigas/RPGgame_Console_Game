@@ -103,15 +103,14 @@ namespace RPGgame
         public override void DoMAgicThing(int usedMana, CharacterInfo person)
         {
             person.Invincible = true;
-            Time = (usedMana / MinMan) * 1000;
-            Thread t = new Thread(SleepNow);
-            t.Start();
-            t.Join();
-            person.Invincible = false;
+            Time = (usedMana / MinMan) * 3000;
+            Thread t = new Thread(new ParameterizedThreadStart(SleepNow));
+            t.Start(person);
         }
-        private void SleepNow()
+        private void SleepNow(object person)
         {
             Thread.Sleep(Time);
+            (person as CharacterInfo).Invincible = false;
         }
     }
     /*6) «Отомри!» Суть этого заклинания – перевести какого-либо персонажа из

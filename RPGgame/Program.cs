@@ -24,7 +24,7 @@ namespace RPGgame
                 else
                     throw new ArgumentException("Неизвестный пол!");
 
-                Console.WriteLine("Выберете рассу:(человек(ч),эльф(э), орк(о), дух(д)) ");
+                Console.WriteLine("Выберете рассу:(человек(ч), эльф(э), орк(о), дух(д)) ");
                 string r = Console.ReadLine();
                 CharacterInfo.Race rassa = CharacterInfo.Race.human;
                 rassa = r switch
@@ -64,27 +64,32 @@ namespace RPGgame
                 {
                     if (boss.CurrentHealth == 0)
                     {
+                        Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine("Вы убили босса ))))");
+                        Console.ForegroundColor = ConsoleColor.White;
                         hero.Experiance += boss.Experiance;
-                        Console.WriteLine(hero.ToString());
+                        Console.WriteLine("Ваш опыт: "+ (hero.Experiance).ToString()+" xp");
                         return;
                     }
-
 
                     int ind = rnd.Next(0, boss.inventory.Count);
                     if (boss.ActivateArtifact(30, boss.inventory[ind] as Artifacts, hero))
                     {
-                        Console.WriteLine("Вас атаковали!!");
-                        Console.Write("Ваши текущие данные:\n" + hero.ToString());
+                        Console.WriteLine("Вас атаковали!!\n");
+                        Console.ForegroundColor = ConsoleColor.Cyan;
+                        Console.Write("Ваши текущие данные:\n" + hero.ToString()+'\n');
+                        Console.ForegroundColor = ConsoleColor.White;
                     }
 
                     if (hero.CurrentHealth == 0) {
-                        Console.WriteLine("Вы проиграли!");
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine("\nВы проиграли!");
+                        Console.ForegroundColor = ConsoleColor.White;
                         return;
                     }
 
                     Console.WriteLine("Что вы хотите сделать: \n");
-                    Console.WriteLine(" 1 - Текущая информация о герое\n" +
+                    Console.WriteLine(" 1 - Завершить игру\n" +
                                   " 2 - Посмотреть характеристики противника\n" +
                                   " 3 - Пополнить артефакты\n" +
                                   " 4 - Использовать артефакт\n" +
@@ -93,16 +98,15 @@ namespace RPGgame
                                   " 7 - Выучить закинания (только если вы маг)\n" +
                                   " 8 - Использовать заклинание (только если вы маг)\n" +
                                   " 9 - Посмотреть выученные заклинания(только если вы маг)\n" +
-                                  "10 - Забыть заклинание (только если вы маг)\n" +
-                                  " 0 - Завершить игру\n");
+                                  "10 - Забыть заклинание (только если вы маг)\n");
                     otvet = Console.ReadLine();
                     Console.WriteLine("\n/////////////////////////////////////////////////////////////////////////////////////////////////\n");
                     switch (otvet)
                     {
-                        case "1"://Информация о герое
+                        case "1"://Выход
                             {
-                                Console.WriteLine(hero.ToString());
-                                break;
+                                Console.WriteLine("Игра завершена!");
+                                return;
                             }
                         case "2"://Информация о боссе
                             {
@@ -486,9 +490,6 @@ namespace RPGgame
 
                                 break;
                             }
-                        case "0"://выход
-                            Console.WriteLine("Игра завершена!");
-                            return;
                         default:
                             Console.WriteLine("Такой команды нет!!");
                             break;
