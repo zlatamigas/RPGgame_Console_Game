@@ -6,6 +6,7 @@ namespace RPGgame
     {
         static void Main(string[] args)
         {
+            Random rnd = new Random();
             try
             {
                 Console.WriteLine("Введите имя: ");
@@ -36,6 +37,11 @@ namespace RPGgame
                 };
 
                 var boss = new CharacterInfo("Босс", CharacterInfo.Gender.male, CharacterInfo.Race.ork);
+                for (int i = 0; i < 9; i++)
+                {
+                    boss.AddArtifact(new PoisonousSaliva());
+                    boss.AddArtifact(new LightningStaff());
+                }
                 boss.Experiance = 120;
 
                 Console.WriteLine("Желаете ли обладать магией? (да/нет)");
@@ -60,7 +66,7 @@ namespace RPGgame
                     {
                         Console.WriteLine("Вы убили босса ))))");
                         hero.Experiance += boss.Experiance;
-                        hero.ToString();
+                        Console.WriteLine(hero.ToString());
                         return;
                     }
                     Console.WriteLine("Что вы хотите сделать: \n");
@@ -474,6 +480,16 @@ namespace RPGgame
                             break;
                     }
                     Console.WriteLine("\n/////////////////////////////////////////////////////////////////////////////////////////////////\n");
+
+                    
+                    int ind = rnd.Next(0, boss.inventory.Count);
+                    if (boss.ActivateArtifact(30, boss.inventory[ind] as Artifacts, hero))
+                    {
+                        Console.WriteLine("Вас атаковали!!");
+                        Console.Write("Ваши текущие данные:\n" + hero.ToString());
+                    }
+                   
+
                 } while (true);
             }
             catch (ArgumentException ag)
