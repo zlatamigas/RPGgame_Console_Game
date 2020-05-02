@@ -16,20 +16,23 @@ namespace RPGgame
         public LiveBottle bottle { get; private set; }
         public Aqua(LiveBottle size)
         {
-            Name = "Бутылка с живой водой";//this is roman sdelal
+            Name = "Бутылка с живой водой ";
             renewability = false;
             bottle = size;
             if (bottle == LiveBottle.small)
             {
                 power= 10;
+                Name += "(10)";
             }
             if (bottle == LiveBottle.medium)
             {
                 power = 25;
+                Name += "(25)";
             }
             if (bottle == LiveBottle.big)
             {
                 power= 50;
+                Name += "(50)";
             }
         }
        override public void DoMAgicThing(CharacterInfo person)
@@ -50,20 +53,23 @@ namespace RPGgame
         
         public Deadwater(DeadBottle size)
         {
-            Name = "Бутылка с мертвой водой";
+            Name = "Бутылка с мертвой водой ";
             renewability = false;
             bottle = size;
             if (bottle == DeadBottle.small)
             {
                 power = 10;
+                Name += "(10)";
             }
             if (bottle == DeadBottle.medium)
             {
                 power = 25;
+                Name += "(25)";
             }
             if (bottle == DeadBottle.big)
             {
                 power = 50;
+                Name += "(50)";
             }
         }
         override public void DoMAgicThing(CharacterInfo person)
