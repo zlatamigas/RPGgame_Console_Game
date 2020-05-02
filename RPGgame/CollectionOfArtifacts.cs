@@ -87,9 +87,18 @@ namespace RPGgame
             power = 100;
         }
         override public void DoMAgicThing(int Damage, CharacterInfo person) 
-        {
-            person.CurrentHealth -= Damage;
-            power -= Damage;
+        {   if (power != 0)
+            {    if (power > Damage)
+                 {
+                    person.CurrentHealth -= Damage;
+                    power -= Damage;
+                 }
+                 else
+                 {
+                    person.CurrentHealth -= power;
+                    power = 0;
+                 }
+            }
         }
     }
     //Декокт из лягушачьих лапок.Переводит какого-либо персонажа из состояния
@@ -130,13 +139,23 @@ namespace RPGgame
             power = 50;
       }
       override public void DoMAgicThing(int Damage, CharacterInfo person)
-        {
-            person.CurrentHealth -= Damage;
-            if (person.state == CharacterInfo.State.normal || person.state == CharacterInfo.State.weakend)
-            {
-                person.state = CharacterInfo.State.poisoned;
+        {   if (power != 0)
+            {   if (power > Damage)
+                {
+                    person.CurrentHealth -= Damage;
+                    power -= Damage;
+                }
+                else
+                {
+                    person.CurrentHealth -= power;
+                    power = 0;
+                }
+                if (person.state == CharacterInfo.State.normal || person.state == CharacterInfo.State.weakend)
+                {
+                    person.state = CharacterInfo.State.poisoned;
+                }
+                
             }
-            power -= Damage; 
         }
     }
     //Глаз василиска.Переводит любого не мёртвого персонажа в состояние
@@ -166,16 +185,32 @@ namespace RPGgame
             power = 1000;
         }
         override public void DoMAgicThing(int Damage, CharacterInfo person)
-        {
-            if (Damage % 2 == 0)
-            {
-                person.CurrentHealth += Damage / 2;
+        {   if (power != 0)
+            {   if (power > Damage)
+                {
+                    if (Damage % 2 == 0)
+                    {
+                        person.CurrentHealth += Damage / 2;
+                    }
+                    else
+                    {
+                        person.CurrentHealth += (Damage - 1) / 2;
+                    }
+                    power -= Damage;
+                }
+                else
+                {
+                    if (power % 2 == 0)
+                    {
+                        person.CurrentHealth += power / 2;
+                    }
+                    else
+                    {
+                        person.CurrentHealth += (power - 1) / 2;
+                    }
+                    power = 0;
+                }
             }
-            else
-            {
-                person.CurrentHealth += (Damage - 1) / 2;
-            }
-            power -= Damage;
         }
     }
     
