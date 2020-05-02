@@ -112,7 +112,7 @@ namespace RPGgame
         {
             if (person.state == CharacterInfo.State.poisoned)
             {
-                if (person.CurrentHealth < 10)
+                if (person.CurrentHealth < 100)
                     person.state = CharacterInfo.State.weakend;
                 else
                     person.state = CharacterInfo.State.normal;

@@ -5,7 +5,6 @@ namespace RPGgame
 {
     public class CharacterInfo : IComparable
     {
-        public bool Invincible = false;
 
         /*- уникальный числовой идентификатор */
         static int next_ID = 0;
@@ -60,15 +59,16 @@ namespace RPGgame
         {
             if (state == State.normal || state == State.weakend || state == State.dead)
             {
-                if (curHealth < 10)
+                if (curHealth < 100)
                     state = State.weakend;
-                if (curHealth >= 10)
+                if (curHealth >= 100)
                     state = State.normal;
             }
             if (curHealth == 0)
                 state = State.dead;
         }
 
+        public bool Invincible = false;
         /*- количество опыта, набранное персонажем.*/
         public int Experiance { get; set; }
 
