@@ -76,17 +76,17 @@ namespace RPGgame
 
                     switch (otvet)
                     {
-                        case "1"://инфа о герое
+                        case "1"://Информация о герое
                             {
                                 Console.WriteLine(hero.ToString());
                                 break;
                             }
-                        case "2"://инфа о боссе
+                        case "2"://Информация о боссе
                             {
                                 Console.WriteLine(boss.ToString());
                                 break;
                             }
-                        case "3"://пополнить артефакты
+                        case "3"://Пополнить артефакты
                             {
                                 Console.WriteLine("Какой артефакт вы хотите приобрести" +
                                    "\nБутылка с живой водой(+)" +
@@ -280,7 +280,8 @@ namespace RPGgame
                                     else
                                         Console.WriteLine("Выбросить артефакт не удалось!!");
                                 }
-                                Console.WriteLine("Недействительный индекс!!");
+                                else
+                                    Console.WriteLine("Недействительный индекс!!");
 
                                 break;
                             }
@@ -407,7 +408,8 @@ namespace RPGgame
                                     else
                                         Console.WriteLine("Использовать заклинание не удалось!!");
                                 }
-                                Console.WriteLine("Недействительный индекс!!");
+                                else
+                                    Console.WriteLine("Недействительный индекс!!");
                                 break;
                             }
                         case "9"://Посмотреть выученные заклинания
@@ -457,7 +459,8 @@ namespace RPGgame
                                     else
                                         Console.WriteLine("Забыть невозможно!!");
                                 }
-                                Console.WriteLine("Недействительный индекс!!");
+                                else
+                                    Console.WriteLine("Недействительный индекс!!");
 
                                 break;
                             }
