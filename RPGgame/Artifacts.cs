@@ -6,7 +6,7 @@ namespace RPGgame
 {
     public abstract class Artifacts : IMagican
     {
-        public string Name;
+        public string Name { get; protected set; }
         public int power;
         public bool renewability { get; protected set; }
         public Artifacts() { }

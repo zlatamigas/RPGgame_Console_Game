@@ -264,7 +264,7 @@ namespace RPGgame
                                             for (int i = 0; i < hero.inventory.Count; i++)
                                             {
                                                 if (hero.inventory[i] is LightningStaff)
-                                                    if (hero.ActivateArtifact(uron, hero.inventory[i] as LightningStaff, hero))
+                                                    if (hero.ActivateArtifact(uron, hero.inventory[i] as LightningStaff, boss))
                                                     {
                                                         Console.WriteLine("Использовано!!");
                                                         break;
