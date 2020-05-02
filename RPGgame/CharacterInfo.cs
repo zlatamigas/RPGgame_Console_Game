@@ -7,7 +7,7 @@ namespace RPGgame
 {
 	public class CharacterInfo : IComparable
 	{
-		public bool Invincible;
+		public bool Invincible=false;
 
 		/*- уникальный числовой идентификатор (*);*/
 		static int next_ID = 0;
@@ -116,8 +116,6 @@ namespace RPGgame
 			}
 			Experiance = 0;
 			inventory = new ArrayList();
-
-			Invincible = false;
 		}
 		/*- свойства для всех полей (доступ к полям может быть реализован только при помощи свойств);*/
 		//(?)
@@ -125,7 +123,7 @@ namespace RPGgame
 		/*- сравнение персонажей по опыту через реализацию интерфейса IComparable;*/
 		public int CompareTo(object obj)
 		{
-			if (!(obj is IComparable))//??
+			if (!(obj is IComparable))
 				throw new ArgumentException("Cannot compare!");
 
 			CharacterInfo someCharacter = (CharacterInfo)obj;
