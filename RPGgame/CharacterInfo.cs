@@ -26,7 +26,7 @@ namespace RPGgame
 		public State state { get; set; }//сделал паблик сет потомучто нужно для заклиания
 
 		/*- раса (человек, гном, эльф, орк, гоблин) (*);*/
-		public enum Race { human, elf, ork, wizard };
+		public enum Race { human, elf, ork, spirit };
 		public Race race { get; private set; }
 
 		/*- возраст;*/
@@ -108,7 +108,7 @@ namespace RPGgame
 				case Race.elf:
 					age = 1500;
 					break;
-				case Race.wizard:
+				case Race.spirit:
 					age = 478;
 					break;
 				default:
@@ -161,8 +161,8 @@ namespace RPGgame
 				case Race.elf:
 					race = "эльф";
 					break;
-				case Race.wizard:
-					race = "маг";
+				case Race.spirit:
+					race = "дух";
 					break;
 			}
 

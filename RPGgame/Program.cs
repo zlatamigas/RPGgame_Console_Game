@@ -23,7 +23,7 @@ namespace RPGgame
                 else
                     throw new ArgumentException("Неизвестный пол!");
 
-                Console.WriteLine("Выберете рассу:(человек(ч),эльф(э), орк(о), маг(м)) ");
+                Console.WriteLine("Выберете рассу:(человек(ч),эльф(э), орк(о), дух(д)) ");
                 string r = Console.ReadLine();
                 CharacterInfo.Race rassa = CharacterInfo.Race.human;
                 rassa = r switch
@@ -31,15 +31,17 @@ namespace RPGgame
                     "э" => CharacterInfo.Race.elf,
                     "ч" => CharacterInfo.Race.human,
                     "о" => CharacterInfo.Race.ork,
-                    "м" => CharacterInfo.Race.wizard,
+                    "д" => CharacterInfo.Race.spirit,
                     _ => throw new ArgumentException("Неизвестная раса!"),
                 };
+                var boss = new CharacterInfo("Босс", CharacterInfo.Gender.male, CharacterInfo.Race.ork);
+                var hero = new MagicCharacter(name, gender, rassa);
+
 
                 Console.WriteLine("\n/////////////////////////////////////////////////////////////////////////////////////////////////\n");
                 Console.WriteLine("Вам на встречу идет против ник но у нас ничего нет ");
 
-                var boss = new CharacterInfo("Босс", CharacterInfo.Gender.male, CharacterInfo.Race.ork);
-                var hero = new MagicCharacter(name, gender, rassa);
+               
 
                 string otvet = "0";
                 do
@@ -274,82 +276,81 @@ namespace RPGgame
                             }
                         case "7"://Выучить закинания
                             {
-                                if (hero.race == CharacterInfo.Race.wizard)
-                                {
-                                    if (hero.learnedSpells.Count == 5)
-                                    {
-                                        Console.WriteLine("Максимальное количество заклинаний выучено!!");
-                                        break;
-                                    }
-
-                                    Console.WriteLine("Какое заклиание вы хотите выучить" +
-                                       "\nДобавить здоровье(+)" +
-                                       "\nВылечить(^)" +
-                                       "\nОживить(@)" +
-                                       "\nБроня(#)" +
-                                       "\nОтомри!(*)" +
-                                       "\nПротивоядие(%)");
-                                    string ans2 = Console.ReadLine();
-
-                                    switch (ans2)
-                                    {
-                                        case "+":
-                                            {
-                                                if (hero.LearnSpell(new Addhelth()))
-                                                    Console.WriteLine("Выучено!!");
-                                                else
-                                                    Console.WriteLine("Было выучено ранее!!!");
-                                                break;
-                                            }
-                                        case "^":
-                                            {
-                                                if (hero.LearnSpell(new ToCure()))
-                                                    Console.WriteLine("Выучено!!");
-                                                else
-                                                    Console.WriteLine("Было выучено ранее!!!");
-                                                break;
-                                            }
-                                        case "%":
-                                            {
-                                                if (hero.LearnSpell(new Antidot()))
-                                                    Console.WriteLine("Выучено!!");
-                                                else
-                                                    Console.WriteLine("Было выучено ранее!!!");
-                                                break;
-                                            }
-                                        case "@":
-                                            {
-                                                if (hero.LearnSpell(new Revive()))
-                                                    Console.WriteLine("Выучено!!");
-                                                else
-                                                    Console.WriteLine("Было выучено ранее!!!");
-                                                break;
-                                            }
-                                        case "#":
-                                            {
-                                                if (hero.LearnSpell(new Armor()))
-                                                    Console.WriteLine("Выучено!!");
-                                                else
-                                                    Console.WriteLine("Было выучено ранее!!!");
-                                                break;
-                                            }
-                                        case "*":
-                                            {
-                                                if (hero.LearnSpell(new NOtDie()))
-                                                    Console.WriteLine("Выучено!!");
-                                                else
-                                                    Console.WriteLine("Было выучено ранее!!!");
-                                                break;
-                                            }
-                                        default:
-                                            Console.WriteLine("Нет такого заклинания!");
-                                            break;
-                                    }
-                                }
-                                else
+                                if (hero is MagicCharacter)
                                 {
                                     Console.WriteLine("Вы не маг!!!");
+                                    break;
                                 }
+                                if (hero.learnedSpells.Count == 5)
+                                {
+                                    Console.WriteLine("Максимальное количество заклинаний выучено!!");
+                                    break;
+                                }
+
+                                Console.WriteLine("Какое заклиание вы хотите выучить" +
+                                    "\nДобавить здоровье(+)" +
+                                    "\nВылечить(^)" +
+                                    "\nОживить(@)" +
+                                    "\nБроня(#)" +
+                                    "\nОтомри!(*)" +
+                                    "\nПротивоядие(%)");
+                                string ans2 = Console.ReadLine();
+
+                                switch (ans2)
+                                {
+                                    case "+":
+                                        {
+                                            if (hero.LearnSpell(new Addhelth()))
+                                                Console.WriteLine("Выучено!!");
+                                            else
+                                                Console.WriteLine("Было выучено ранее!!!");
+                                            break;
+                                        }
+                                    case "^":
+                                        {
+                                            if (hero.LearnSpell(new ToCure()))
+                                                Console.WriteLine("Выучено!!");
+                                            else
+                                                Console.WriteLine("Было выучено ранее!!!");
+                                            break;
+                                        }
+                                    case "%":
+                                        {
+                                            if (hero.LearnSpell(new Antidot()))
+                                                Console.WriteLine("Выучено!!");
+                                            else
+                                                Console.WriteLine("Было выучено ранее!!!");
+                                            break;
+                                        }
+                                    case "@":
+                                        {
+                                            if (hero.LearnSpell(new Revive()))
+                                                Console.WriteLine("Выучено!!");
+                                            else
+                                                Console.WriteLine("Было выучено ранее!!!");
+                                            break;
+                                        }
+                                    case "#":
+                                        {
+                                            if (hero.LearnSpell(new Armor()))
+                                                Console.WriteLine("Выучено!!");
+                                            else
+                                                Console.WriteLine("Было выучено ранее!!!");
+                                            break;
+                                        }
+                                    case "*":
+                                        {
+                                            if (hero.LearnSpell(new NOtDie()))
+                                                Console.WriteLine("Выучено!!");
+                                            else
+                                                Console.WriteLine("Было выучено ранее!!!");
+                                            break;
+                                        }
+                                    default:
+                                        Console.WriteLine("Нет такого заклинания!");
+                                        break;
+                                }
+                               
                                 break;
                             }
                         case "8"://Использовать заклинание
