@@ -384,7 +384,6 @@ namespace RPGgame
                                 Console.Write("Введите индекс используемого заклинания: ");
 
                                 ans8 = int.Parse(Console.ReadLine());
-
                                 if (ans8 >= 0 && ans8 < (hero as MagicCharacter).learnedSpells.Count)
                                 {
                                     if (((hero as MagicCharacter).learnedSpells[ans8] is Armor) || ((hero as MagicCharacter).learnedSpells[ans8] is Addhelth))
