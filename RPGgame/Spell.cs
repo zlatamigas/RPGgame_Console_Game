@@ -6,6 +6,7 @@ namespace RPGgame
 {
     public abstract class Spell : IMagican
     {
+        public string Name;
         public Spell() { }
         virtual public void DoMAgicThing(int Damage, CharacterInfo person) {}      
         virtual public void DoMAgicThing(CharacterInfo person) { }

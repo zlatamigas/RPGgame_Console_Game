@@ -12,6 +12,7 @@ namespace RPGgame
     {
         public Addhelth() 
         {
+            Name = "Добавить здоровье";
             MinMan = 2;
             movement = false;
             verbal = true;
@@ -34,6 +35,7 @@ namespace RPGgame
     {
         public ToCure() 
         {
+            Name = "Вылечить";
             MinMan = 20;
             movement = false;
             verbal = true;
@@ -61,6 +63,7 @@ namespace RPGgame
     {
         public Antidot()
         {
+            Name = "Противоядие";
             MinMan = 30;
             movement = false;
             verbal = true;
@@ -89,6 +92,7 @@ namespace RPGgame
     {
         public Revive()
         {
+            Name = "Оживить";
             MinMan = 150;
             movement = true;
             verbal = true;
@@ -118,6 +122,7 @@ namespace RPGgame
     {
         public Armor()
         {
+            Name = "Броня";
             MinMan = 50;
             movement = true;
             verbal = false;
@@ -145,6 +150,7 @@ namespace RPGgame
     {
         public NOtDie()
         {
+            Name = "Отомри!";
             MinMan = 85;
             movement = false;
             verbal = true;

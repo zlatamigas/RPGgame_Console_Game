@@ -65,17 +65,17 @@ namespace RPGgame
 
                     switch (otvet)
                     {
-                        case 1:
+                        case 1://инфа о герое
                             {
                                 Console.WriteLine(hero.ToString());
                                 break;
                             }
-                        case 2:
+                        case 2://инфа о боссе
                             {
                                 Console.WriteLine(boss.ToString());
                                 break;
                             }
-                        case 3:
+                        case 3://пополнить артефакты
                             {
                                 Console.WriteLine("Какой артефакт вы хотите приобрести" +
                                    "\nБутылка с живой водой(+)" +
@@ -158,13 +158,21 @@ namespace RPGgame
                                                 Console.WriteLine("Недостаточно места в инвенторе!!!");
                                             break;
                                         }
+                                    case "%":
+                                        {
+                                            if (hero.AddArtifact(new BasiliskEye()))
+                                                Console.WriteLine("Добавленно!!");
+                                            else
+                                                Console.WriteLine("Недостаточно места в инвенторе!!!");
+                                            break;
+                                        }
                                     default:
                                         Console.WriteLine("Нет такого артефакта!");
                                         break;
                                 }
                                 break;
                             }
-                        case 4:
+                        case 4://Использовать артефакт
                             {
                                 if (hero.inventory.Count == 0)
                                 {
@@ -311,7 +319,7 @@ namespace RPGgame
                                 }
                                 break;
                             }
-                        case 5:
+                        case 5://Посмотреть инвентарь
                             {
                                 if (hero.inventory.Count == 0)
                                 {
@@ -319,10 +327,10 @@ namespace RPGgame
                                     break;
                                 }
                                 foreach (var x in hero.inventory)
-                                    Console.WriteLine($"{x}\n");
+                                    Console.WriteLine($"{(x as Artifacts).Name}\n");
                                 break;
                             }
-                        case 6:
+                        case 6://Выкинуть артефакт
                             {
                                 if (hero.inventory.Count == 0)
                                 {
@@ -333,7 +341,7 @@ namespace RPGgame
                                 int ans9;
                                 Console.WriteLine("Для обращения к элементам вашего инвентаря, используйте приведенные ниже индексы:");
                                 for (int i = 0; i < hero.inventory.Count; i++)
-                                    Console.WriteLine($"{hero.inventory[i]} - {i}");
+                                    Console.WriteLine($"{(hero.inventory[i] as Artifacts).Name} - {i}");
 
                                 Console.Write("Введите индекс удаляемого элемента: ");
 
@@ -353,7 +361,7 @@ namespace RPGgame
 
                                 break;
                             }
-                        case 7:
+                        case 7://Выучить закинания
                             {
                                 if (hero.race == CharacterInfo.Race.wizard)
                                 {
@@ -390,7 +398,7 @@ namespace RPGgame
                                                     Console.WriteLine("Было выучено ранее!!!");
                                                 break;
                                             }
-                                        case "@":
+                                        case "%":
                                             {
                                                 if (hero.LearnSpell(new Antidot()))
                                                     Console.WriteLine("Выучено!!");
@@ -398,7 +406,7 @@ namespace RPGgame
                                                     Console.WriteLine("Было выучено ранее!!!");
                                                 break;
                                             }
-                                        case "#":
+                                        case "@":
                                             {
                                                 if (hero.LearnSpell(new Revive()))
                                                     Console.WriteLine("Выучено!!");
@@ -406,9 +414,17 @@ namespace RPGgame
                                                     Console.WriteLine("Было выучено ранее!!!");
                                                 break;
                                             }
-                                        case "*":
+                                        case "#":
                                             {
                                                 if (hero.LearnSpell(new Armor()))
+                                                    Console.WriteLine("Выучено!!");
+                                                else
+                                                    Console.WriteLine("Было выучено ранее!!!");
+                                                break;
+                                            }
+                                        case "*":
+                                            {
+                                                if (hero.LearnSpell(new NOtDie()))
                                                     Console.WriteLine("Выучено!!");
                                                 else
                                                     Console.WriteLine("Было выучено ранее!!!");
@@ -425,7 +441,7 @@ namespace RPGgame
                                 }
                                 break;
                             }
-                        case 8:
+                        case 8://Использовать заклинание
                             {
                                 if (!(hero is MagicCharacter))
                                 {
@@ -531,7 +547,7 @@ namespace RPGgame
                                 break;
                                 
                             }
-                        case 9:
+                        case 9://Посмотреть выученные заклинания
                             {
                                 if (hero.race == CharacterInfo.Race.wizard)
                                 {
@@ -541,13 +557,13 @@ namespace RPGgame
                                         break;
                                     }
                                     foreach (var x in hero.learnedSpells)
-                                        Console.WriteLine($"{x}\n");
+                                        Console.WriteLine($"{(x as Spell).Name}\n");
                                 }
                                 else
                                     Console.WriteLine("Вы не маг!!!");
                                 break;
                             }
-                        case 10:
+                        case 10://Забыть заклинание
                             {
                                 if (!(hero is MagicCharacter))
                                 {
@@ -563,7 +579,7 @@ namespace RPGgame
                                 int ans10;
                                 Console.WriteLine("Для обращения к изученным заклинаниям, используйте приведенные ниже индексы:");
                                 for (int i = 0; i < hero.learnedSpells.Count; i++)
-                                    Console.WriteLine($"{hero.learnedSpells[i]} - {i}");
+                                    Console.WriteLine($"{(hero.learnedSpells[i] as Spell).Name} - {i}");
 
                                 Console.Write("Введите индекс удаляемого заклинания: ");
                                 ans10 = int.Parse(Console.ReadLine());
@@ -582,7 +598,7 @@ namespace RPGgame
 
                                 break;
                             }
-                        case 0:
+                        case 0://выход
                             return;
                         default:
                             Console.WriteLine("Такой команды нет!!");

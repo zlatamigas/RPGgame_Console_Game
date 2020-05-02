@@ -16,6 +16,7 @@ namespace RPGgame
         public LiveBottle bottle { get; private set; }
         public Aqua(LiveBottle size)
         {
+            Name = "Бутылка с живой водой";//this is roman sdelal
             renewability = false;
             bottle = size;
             if (bottle == LiveBottle.small)
@@ -49,6 +50,7 @@ namespace RPGgame
         
         public Deadwater(DeadBottle size)
         {
+            Name = "Бутылка с мертвой водой";
             renewability = false;
             bottle = size;
             if (bottle == DeadBottle.small)
@@ -83,6 +85,7 @@ namespace RPGgame
     {
         public LightningStaff()
         {
+            Name = "Посох «Молния»";
             renewability = true;
             power = 100;
         }
@@ -108,6 +111,7 @@ namespace RPGgame
     {
         public Decoction()
         {
+            Name = "Декокт из лягушачьих лапок";
             power = 1;
             renewability = false;
         }
@@ -135,6 +139,7 @@ namespace RPGgame
     {
       public PoisonousSaliva()
       {
+            Name = "Ядовитая слюна";
             renewability = true;
             power = 50;
       }
@@ -181,6 +186,7 @@ namespace RPGgame
     { 
         public Curing()
         {
+            Name = "&&&";
             renewability = true;
             power = 1000;
         }
