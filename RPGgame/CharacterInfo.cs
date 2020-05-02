@@ -5,30 +5,32 @@ namespace RPGgame
 {
     public class CharacterInfo : IComparable
     {
-
-        /*- уникальный числовой идентификатор */
+        /* Уникальный числовой идентификатор */
         static int next_ID = 0;
         public int ID { get; private set; }
 
-        /*- имя персонажа */
+        /* Имя персонажа */
         public string Name { get; private set; }
 
-        /*- пол */
+        /* Пол */
         public enum Gender { male, female };
         public Gender gender { get; private set; }
 
-        /*- состояние (нормальное, ослаблен, болен, отравлен, парализован, мёртв);*/
+        /* Состояние (нормальное, ослаблен, болен, отравлен, парализован, мёртв) */
         public enum State { normal, weakend, sick, poisoned, paralyzed, dead };
         public State state { get; set; }//сделал паблик сет потомучто нужно для заклиания
 
-        /*- раса (человек, гном, эльф, орк, гоблин)*/
+        /* Раса (человек, эльф, орк, дух) */
         public enum Race { human, elf, ork, spirit };
         public Race race { get; private set; }
 
-        /*- возраст*/
+        /* Возраст*/
         public int Age { get; private set; }
 
-        /*- текущее значение здоровья персонажа (неотрицательная величина);*/
+        /* Максимальное значение для здоровья персонажа;*/
+        public static int MaxHealth = 1000;
+
+        /* Векущее значение здоровья персонажа (неотрицательная величина);*/
         private int curHealth;
         public int CurrentHealth
         {
@@ -47,14 +49,10 @@ namespace RPGgame
             }
         }
 
-        /*- максимальное значение для здоровья персонажа;*/
-        public static int MaxHealth = 1000;
-
-        /*- если процент здоровья персонажа (отношение текущего здоровья персонажа к максимальному количеству здоровья) 
+        /* Если процент здоровья персонажа (отношение текущего здоровья персонажа к максимальному количеству здоровья) 
 		становится менее 10, персонаж автоматически переходит из состояния «здоров» в состояние «ослаблен». Если процент 
 		здоровья персонажа становится большим или равным 10, персонаж автоматически переходит из состояния «ослаблен» в  состояние
-        «здоров». Если текущее значение здоровья равно 0, персонаж автоматически переходит из любого состояния в состояние 
-		«мертв».*/
+        «здоров». Если текущее значение здоровья равно 0, персонаж автоматически переходит из любого состояния в состояние «мертв».*/
         public void CheckState(CharacterInfo character)
         {
             if (state == State.normal || state == State.weakend || state == State.dead)
@@ -68,29 +66,26 @@ namespace RPGgame
                 state = State.dead;
         }
 
-        public bool Invincible = false;
-        /*- количество опыта, набранное персонажем.*/
+        /* Уязвимость к атакам */
+        public bool Invincible { get; set; }
+
+        /* Количество опыта, набранное персонажем.*/
         public int Experiance { get; set; }
 
-        /*- возможность разговаривать в текущий момент времени;*/
-        public bool CanTalkNow { get; set; }//?
+        /* Возможность разговаривать в текущий момент времени;*/
+        public bool CanTalkNow { get; set; }
 
-        /*- возможность двигаться в текущий момент времени;*/
+        /* Возможность двигаться в текущий момент времени;*/
         public bool MoveNow { get; set; }
 
-        /*- конструктор, задающий значения неизменяемых полей и обеспечивающий уникальность идентификатора для нового объекта; */
+        /* Конструктор, задающий значения неизменяемых полей и обеспечивающий уникальность идентификатора для нового объекта; */
         public CharacterInfo(string aname, Gender agender, Race arace)
         {
             ID = next_ID++;
+
             Name = aname;
-
-            gender = agender;
-            curHealth = MaxHealth;
-            state = State.normal;
-            CanTalkNow = false;
-            MoveNow = true;
-
             race = arace;
+            gender = agender;
             Age = arace switch
             {
                 Race.human => 47,
@@ -99,12 +94,19 @@ namespace RPGgame
                 Race.spirit => 478,
                 _ => throw new ArgumentException("Unknown race!"),
             };
+
+            curHealth = MaxHealth;
+            state = State.normal;
+
+            CanTalkNow = false;
+            MoveNow = true;
+            Invincible = false;
+
             Experiance = 0;
             inventory = new ArrayList();
         }
-        /*- свойства для всех полей (доступ к полям может быть реализован только при помощи свойств);*/
 
-        /*- сравнение персонажей по опыту через реализацию интерфейса IComparable;*/
+        /* Сравнение персонажей по опыту через реализацию интерфейса IComparable;*/
         public int CompareTo(object obj)
         {
             if (!(obj is IComparable))
@@ -120,8 +122,81 @@ namespace RPGgame
             return 0;
         }
 
-        /*- вывод информации о персонаже в строку (через метод ToString).*/
+        /*У каждого персонажа игры есть мешок (inventory), куда можно помещать
+        различные артефакты (количество артефактов одного вида неограниченно) и
+        использовать их. Если артефакт не является возобновляемым, он исчезает из
+        мешка. Можно использовать только те артефакты, которые имеются в мешке.*/
+        public ArrayList inventory;
 
+        /*«Подобрать артефакт и пополнить мешок»*/
+        public bool AddArtifact(Artifacts art)
+        {
+            if (inventory.Count < 20)
+            {
+                inventory.Add(art);
+                return true;
+            }
+            return false;
+        }
+
+        /*«Выбросить артефакт из мешка»*/
+        public bool ThrowArtifact(Artifacts art)
+        {
+            if (inventory.Contains(art))
+            {
+                inventory.Remove(art);
+                return true;
+            }
+            return false;
+        }
+
+        /*«Передать артефакт другому персонажу»*/
+        public bool GiveAwayArtifact(Artifacts art, CharacterInfo target)
+        {
+            if (inventory.Contains(art))
+                if (target.AddArtifact(art))
+                {
+                    inventory.Remove(art);
+                    return true;
+                }
+            return false;
+        }
+
+        /*«Использовать артефакт»*/
+        public bool ActivateArtifact(Artifacts ourartifact, CharacterInfo target)
+        {
+            if (inventory.Contains(ourartifact))
+                if (ourartifact.power != 0)
+                {
+                    ourartifact.DoMAgicThing(target);
+                    if (ourartifact.power == 0 && ourartifact.renewability == false)
+                        inventory.Remove(ourartifact);
+                    return true;
+                }
+            return false;
+        }
+        public bool ActivateArtifact(int expectedPower, Artifacts ourartifact, CharacterInfo target)
+        {
+            if (inventory.Contains(ourartifact))
+                if (ourartifact.power != 0)
+                {
+                    int activatePower;
+                    if (expectedPower <= ourartifact.power)
+                    {
+                        activatePower = expectedPower;
+                    }
+                    else
+                        activatePower = ourartifact.power;
+
+                    ourartifact.DoMAgicThing(activatePower, target);
+                    if (ourartifact.power == 0 && ourartifact.renewability == false)
+                        inventory.Remove(ourartifact);
+                    return true;
+                }
+            return false;
+        }
+
+        /* Вывод информации о персонаже в строку (через метод ToString).*/
         public override string ToString()
         {
             string gend;
@@ -131,7 +206,6 @@ namespace RPGgame
                 gend = "женский";
 
             string race = "";
-
             switch (this.race)
             {
                 case Race.human:
@@ -149,7 +223,6 @@ namespace RPGgame
             }
 
             string state = "";
-
             switch (this.state)
             {
                 case State.dead:
@@ -176,62 +249,6 @@ namespace RPGgame
                 $"Раса: {race}\nПол: {gend}\n" +
                 $"Возраст: {Age}\nКоличество здоровья: {curHealth} hp\n" +
                 $"Состояние здоровья: {state}\nКоличество опыта: {Experiance} xp\n");
-        }
-
-        public bool ActivateArtifact(Artifacts ourartifact, CharacterInfo target)
-        {
-            if (inventory.Contains(ourartifact))
-                if (ourartifact.power != 0)
-                {
-                    ourartifact.DoMAgicThing(target);
-                    if (ourartifact.power == 0 && ourartifact.renewability == false)
-                        inventory.Remove(ourartifact);
-                    return true;
-                }
-            return false;
-        }
-        public bool ActivateArtifact(int expectedPower, Artifacts ourartifact, CharacterInfo target)
-        {
-            if (inventory.Contains(ourartifact))
-                if (ourartifact.power != 0)
-                    if (expectedPower <= ourartifact.power)
-                    {
-                        ourartifact.DoMAgicThing(expectedPower, target);
-                        if (ourartifact.power == 0 && ourartifact.renewability == false)
-                            inventory.Remove(ourartifact);
-                        return true;
-                    }
-            return false;
-        }
-
-        public ArrayList inventory;
-        public bool AddArtifact(Artifacts art)
-        {
-            if (inventory.Count < 20)
-            {
-                inventory.Add(art);
-                return true;
-            }
-            return false;
-        }
-        public bool ThrowArtifact(Artifacts art)
-        {
-            if (inventory.Contains(art))
-            {
-                inventory.Remove(art);
-                return true;
-            }
-            return false;
-        }
-        public bool GiveAwayArtifact(Artifacts art, CharacterInfo target)
-        {
-            if (inventory.Contains(art))
-                if (target.AddArtifact(art))
-                {
-                    inventory.Remove(art);
-                    return true;
-                }
-            return false;
         }
     }
 }
