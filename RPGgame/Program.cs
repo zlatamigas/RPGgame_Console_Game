@@ -34,12 +34,26 @@ namespace RPGgame
                     "д" => CharacterInfo.Race.spirit,
                     _ => throw new ArgumentException("Неизвестная раса!"),
                 };
+
                 var boss = new CharacterInfo("Босс", CharacterInfo.Gender.male, CharacterInfo.Race.ork);
-                var hero = new MagicCharacter(name, gender, rassa);
+                //MagicCharacter hero = new MagicCharacter(name, gender, rassa);
+
+                Console.WriteLine("Желаете ли обладать магией? (да/нет)");
+                string ans = Console.ReadLine();
+
+                CharacterInfo hero;
+                if (ans == "да")
+                    hero = new MagicCharacter(name, gender, rassa);
+                else
+                        if (ans == "нет")
+                    hero = new CharacterInfo(name, gender, rassa);
+                else
+                    throw new ArgumentException("Мы вас не понимаем!");
+
 
 
                 Console.WriteLine("\n/////////////////////////////////////////////////////////////////////////////////////////////////\n");
-                Console.WriteLine("Вам на встречу идет против ник но у нас ничего нет ");
+                Console.WriteLine("Вам на встречу идет противник но у нас ничего нет.");
 
                
 
@@ -240,7 +254,7 @@ namespace RPGgame
                                     break;
                                 }
                                 foreach (var x in hero.inventory)
-                                    Console.WriteLine($"{(x as Artifacts).Name}\n");
+                                    Console.WriteLine($"{(x as Artifacts).Name}");
                                 break;
                             }
                         case "6"://Выкинуть артефакт
@@ -276,12 +290,12 @@ namespace RPGgame
                             }
                         case "7"://Выучить закинания
                             {
-                                if (hero is MagicCharacter)
+                                if (hero.GetType() != typeof(MagicCharacter))
                                 {
                                     Console.WriteLine("Вы не маг!!!");
                                     break;
                                 }
-                                if (hero.learnedSpells.Count == 5)
+                                if ((hero as MagicCharacter).learnedSpells.Count == 5)
                                 {
                                     Console.WriteLine("Максимальное количество заклинаний выучено!!");
                                     break;
@@ -300,7 +314,7 @@ namespace RPGgame
                                 {
                                     case "+":
                                         {
-                                            if (hero.LearnSpell(new Addhelth()))
+                                            if ((hero as MagicCharacter).LearnSpell(new Addhelth()))
                                                 Console.WriteLine("Выучено!!");
                                             else
                                                 Console.WriteLine("Было выучено ранее!!!");
@@ -308,7 +322,7 @@ namespace RPGgame
                                         }
                                     case "^":
                                         {
-                                            if (hero.LearnSpell(new ToCure()))
+                                            if ((hero as MagicCharacter).LearnSpell(new ToCure()))
                                                 Console.WriteLine("Выучено!!");
                                             else
                                                 Console.WriteLine("Было выучено ранее!!!");
@@ -316,7 +330,7 @@ namespace RPGgame
                                         }
                                     case "%":
                                         {
-                                            if (hero.LearnSpell(new Antidot()))
+                                            if ((hero as MagicCharacter).LearnSpell(new Antidot()))
                                                 Console.WriteLine("Выучено!!");
                                             else
                                                 Console.WriteLine("Было выучено ранее!!!");
@@ -324,7 +338,7 @@ namespace RPGgame
                                         }
                                     case "@":
                                         {
-                                            if (hero.LearnSpell(new Revive()))
+                                            if ((hero as MagicCharacter).LearnSpell(new Revive()))
                                                 Console.WriteLine("Выучено!!");
                                             else
                                                 Console.WriteLine("Было выучено ранее!!!");
@@ -332,7 +346,7 @@ namespace RPGgame
                                         }
                                     case "#":
                                         {
-                                            if (hero.LearnSpell(new Armor()))
+                                            if ((hero as MagicCharacter).LearnSpell(new Armor()))
                                                 Console.WriteLine("Выучено!!");
                                             else
                                                 Console.WriteLine("Было выучено ранее!!!");
@@ -340,7 +354,7 @@ namespace RPGgame
                                         }
                                     case "*":
                                         {
-                                            if (hero.LearnSpell(new NOtDie()))
+                                            if ((hero as MagicCharacter).LearnSpell(new NOtDie()))
                                                 Console.WriteLine("Выучено!!");
                                             else
                                                 Console.WriteLine("Было выучено ранее!!!");
@@ -355,12 +369,12 @@ namespace RPGgame
                             }
                         case "8"://Использовать заклинание
                             {
-                                if (!(hero is MagicCharacter))
+                                if (hero.GetType() != typeof(MagicCharacter))
                                 {
                                     Console.WriteLine("Вы не маг!");
                                     break;
                                 }
-                                if (hero.learnedSpells.Count == 0)
+                                if ((hero as MagicCharacter).learnedSpells.Count == 0)
                                 {
                                     Console.WriteLine("Вы не знаете никаких заклинаний!");
                                     break;
@@ -368,20 +382,20 @@ namespace RPGgame
 
                                 int ans8;
                                 Console.WriteLine("Для обращения к выученным заклинаниям, используйте приведенные ниже индексы:");
-                                for (int i = 0; i < hero.learnedSpells.Count; i++)
-                                    Console.WriteLine($"{i} - {(hero.learnedSpells[i] as Spell).Name}");
+                                for (int i = 0; i < (hero as MagicCharacter).learnedSpells.Count; i++)
+                                    Console.WriteLine($"{i} - {((hero as MagicCharacter).learnedSpells[i] as Spell).Name}");
 
                                 Console.Write("Введите индекс используемого заклинания: ");
 
                                 ans8 = int.Parse(Console.ReadLine());
 
-                                if (ans8 >= 0 && ans8 < hero.learnedSpells.Count)
+                                if (ans8 >= 0 && ans8 < (hero as MagicCharacter).learnedSpells.Count)
                                 {
-                                    if ((hero.learnedSpells[ans8] is Armor) || (hero.learnedSpells[ans8] is Addhelth)) { 
+                                    if (((hero as MagicCharacter).learnedSpells[ans8] is Armor) || ((hero as MagicCharacter).learnedSpells[ans8] is Addhelth)) { 
                                         Console.WriteLine("Сколько маны вы хотите использовать?");
                                         int dam = int.Parse(Console.ReadLine());
 
-                                        if (hero.ActivateSpell(dam, hero.learnedSpells[ans8] as Spell, hero))
+                                        if ((hero as MagicCharacter).ActivateSpell(dam, (hero as MagicCharacter).learnedSpells[ans8] as Spell, hero))
                                         {
                                             Console.WriteLine("Заклинание использовано!!");
                                             break;
@@ -390,7 +404,7 @@ namespace RPGgame
                                             Console.WriteLine("Использовать заклинание не удалось!!");
                                     }
                                     else
-                                        if (hero.ActivateSpell(hero.learnedSpells[ans8] as Spell, hero))
+                                        if ((hero as MagicCharacter).ActivateSpell((hero as MagicCharacter).learnedSpells[ans8] as Spell, hero))
                                         {
                                             Console.WriteLine("Заклинание использовано!!");
                                             break;
@@ -403,28 +417,28 @@ namespace RPGgame
                             }
                         case "9"://Посмотреть выученные заклинания
                             {
-                                if (!(hero is MagicCharacter))
+                                if (hero.GetType() != typeof(MagicCharacter))
                                 {
-                                    Console.WriteLine("Перонаж не маг!!");
+                                    Console.WriteLine("Вы не маг!!");
                                     break;
                                 }
-                                if (hero.learnedSpells.Count == 0)
+                                if ((hero as MagicCharacter).learnedSpells.Count == 0)
                                 {
                                     Console.WriteLine("Вы не знаете никаких заклинаний!");
                                     break;
                                 }
-                                foreach (var x in hero.learnedSpells)
-                                    Console.WriteLine($"{(x as Spell).Name}\n");
+                                foreach (var x in (hero as MagicCharacter).learnedSpells)
+                                    Console.WriteLine($"{(x as Spell).Name}");
                                 break;
                             }
                         case "10"://Забыть заклинание
                             {
                                 if (!(hero is MagicCharacter))
                                 {
-                                    Console.WriteLine("Перонаж не маг!!");
+                                    Console.WriteLine("Вы не маг!!");
                                     break;
                                 }
-                                if (hero.learnedSpells.Count == 0)
+                                if ((hero as MagicCharacter).learnedSpells.Count == 0)
                                 {
                                     Console.WriteLine("Вы не знаете никаких заклинаний!");
                                     break;
@@ -432,15 +446,15 @@ namespace RPGgame
 
                                 int ans10;
                                 Console.WriteLine("Для обращения к изученным заклинаниям, используйте приведенные ниже индексы:");
-                                for (int i = 0; i < hero.learnedSpells.Count; i++)
-                                    Console.WriteLine($"{i} - {(hero.learnedSpells[i] as Spell).Name}");
+                                for (int i = 0; i < (hero as MagicCharacter).learnedSpells.Count; i++)
+                                    Console.WriteLine($"{i} - {((hero as MagicCharacter).learnedSpells[i] as Spell).Name}");
 
                                 Console.Write("Введите индекс удаляемого заклинания: ");
                                 ans10 = int.Parse(Console.ReadLine());
 
-                                if (ans10 >= 0 && ans10 < hero.learnedSpells.Count)
+                                if (ans10 >= 0 && ans10 < (hero as MagicCharacter).learnedSpells.Count)
                                 {
-                                    if (hero.ForgetSpell(hero.learnedSpells[ans10] as Spell))
+                                    if ((hero as MagicCharacter).ForgetSpell((hero as MagicCharacter).learnedSpells[ans10] as Spell))
                                     {
                                         Console.WriteLine("Зкленание забыто!!");
                                         break;
