@@ -36,6 +36,7 @@ namespace RPGgame
                 };
 
                 var boss = new CharacterInfo("Босс", CharacterInfo.Gender.male, CharacterInfo.Race.ork);
+                boss.Experiance = 120;
 
                 Console.WriteLine("Желаете ли обладать магией? (да/нет)");
                 string ans = Console.ReadLine();
@@ -58,6 +59,8 @@ namespace RPGgame
                     if (boss.CurrentHealth == 0)
                     {
                         Console.WriteLine("Вы убили босса ))))");
+                        hero.Experiance += boss.Experiance;
+                        hero.ToString();
                         return;
                     }
                     Console.WriteLine("Что вы хотите сделать: \n");
@@ -73,7 +76,7 @@ namespace RPGgame
                                   "10 - Забыть заклинание (только если вы маг)\n" +
                                   " 0 - Завершить игру\n");
                     otvet = Console.ReadLine();
-
+                    Console.WriteLine("\n/////////////////////////////////////////////////////////////////////////////////////////////////\n");
                     switch (otvet)
                     {
                         case "1"://Информация о герое
