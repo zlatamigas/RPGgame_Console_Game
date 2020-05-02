@@ -242,7 +242,7 @@ namespace RPGgame
 
                                     if ((hero.inventory[ans4] is LightningStaff) || (hero.inventory[ans4] is PoisonousSaliva) || (hero.inventory[ans4] is Curing))
                                     {
-                                        Console.WriteLine("С какой силой вы хотите его использовать?");
+                                        Console.WriteLine("С какой силой вы хотите его использовать (учтите, что сила использования артефакта ограничевается его мощностью)?");
                                         int dam = int.Parse(Console.ReadLine());
 
                                         if (hero.ActivateArtifact(dam, hero.inventory[ans4] as Artifacts, target))
@@ -411,7 +411,7 @@ namespace RPGgame
                                 {
                                     if (((hero as MagicCharacter).learnedSpells[ans8] is Armor) || ((hero as MagicCharacter).learnedSpells[ans8] is Addhelth))
                                     {
-                                        Console.WriteLine("Сколько маны вы хотите использовать?");
+                                        Console.WriteLine("Сколько маны вы хотите использовать (учтите, что максимальное значение используемой маны ограничевается Вашей маной)?");
                                         int dam = int.Parse(Console.ReadLine());
 
                                         if ((hero as MagicCharacter).ActivateSpell(dam, (hero as MagicCharacter).learnedSpells[ans8] as Spell, hero))
