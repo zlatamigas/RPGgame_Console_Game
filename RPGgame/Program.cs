@@ -36,7 +36,6 @@ namespace RPGgame
                 };
 
                 var boss = new CharacterInfo("Босс", CharacterInfo.Gender.male, CharacterInfo.Race.ork);
-                //MagicCharacter hero = new MagicCharacter(name, gender, rassa);
 
                 Console.WriteLine("Желаете ли обладать магией? (да/нет)");
                 string ans = Console.ReadLine();
@@ -50,12 +49,8 @@ namespace RPGgame
                 else
                     throw new ArgumentException("Мы вас не понимаем!");
 
-
-
                 Console.WriteLine("\n/////////////////////////////////////////////////////////////////////////////////////////////////\n");
-                Console.WriteLine("Вам на встречу идет противник но у нас ничего нет.");
-
-               
+                Console.WriteLine("Вам на встречу идет противник но у вас ничего нет.");
 
                 string otvet = "0";
                 do
@@ -222,11 +217,12 @@ namespace RPGgame
                                     else
                                         target = hero;
 
-                                    if ((hero.inventory[ans4] is LightningStaff) || (hero.inventory[ans4] is PoisonousSaliva) || (hero.inventory[ans4] is Curing)) {
+                                    if ((hero.inventory[ans4] is LightningStaff) || (hero.inventory[ans4] is PoisonousSaliva) || (hero.inventory[ans4] is Curing))
+                                    {
                                         Console.WriteLine("С какой силой вы хотите его использовать?");
                                         int dam = int.Parse(Console.ReadLine());
 
-                                        if (hero.ActivateArtifact(dam,hero.inventory[ans4] as Artifacts, target))
+                                        if (hero.ActivateArtifact(dam, hero.inventory[ans4] as Artifacts, target))
                                         {
                                             Console.WriteLine("Артефакт использован!!");
                                             break;
@@ -234,16 +230,16 @@ namespace RPGgame
                                         else
                                             Console.WriteLine("Использовать артефакт не удалось!!");
                                     }
+                                    else if (hero.ActivateArtifact(hero.inventory[ans4] as Artifacts, target))
+                                    {
+                                        Console.WriteLine("Артефакт использован!!");
+                                        break;
+                                    }
                                     else
-                                        if (hero.ActivateArtifact(hero.inventory[ans4] as Artifacts, target))
-                                        {
-                                            Console.WriteLine("Артефакт использован!!");
-                                            break;
-                                        }
-                                        else
-                                            Console.WriteLine("Использовать артефакт не удалось!!");
+                                        Console.WriteLine("Использовать артефакт не удалось!!");
                                 }
-                                Console.WriteLine("Недействительный индекс!!");
+                                else
+                                    Console.WriteLine("Недействительный индекс!!");
                                 break;
                             }
                         case "5"://Посмотреть инвентарь
@@ -364,7 +360,6 @@ namespace RPGgame
                                         Console.WriteLine("Нет такого заклинания!");
                                         break;
                                 }
-                               
                                 break;
                             }
                         case "8"://Использовать заклинание
@@ -391,7 +386,8 @@ namespace RPGgame
 
                                 if (ans8 >= 0 && ans8 < (hero as MagicCharacter).learnedSpells.Count)
                                 {
-                                    if (((hero as MagicCharacter).learnedSpells[ans8] is Armor) || ((hero as MagicCharacter).learnedSpells[ans8] is Addhelth)) { 
+                                    if (((hero as MagicCharacter).learnedSpells[ans8] is Armor) || ((hero as MagicCharacter).learnedSpells[ans8] is Addhelth))
+                                    {
                                         Console.WriteLine("Сколько маны вы хотите использовать?");
                                         int dam = int.Parse(Console.ReadLine());
 
@@ -403,14 +399,13 @@ namespace RPGgame
                                         else
                                             Console.WriteLine("Использовать заклинание не удалось!!");
                                     }
+                                    else if ((hero as MagicCharacter).ActivateSpell((hero as MagicCharacter).learnedSpells[ans8] as Spell, hero))
+                                    {
+                                        Console.WriteLine("Заклинание использовано!!");
+                                        break;
+                                    }
                                     else
-                                        if ((hero as MagicCharacter).ActivateSpell((hero as MagicCharacter).learnedSpells[ans8] as Spell, hero))
-                                        {
-                                            Console.WriteLine("Заклинание использовано!!");
-                                            break;
-                                        }
-                                        else
-                                            Console.WriteLine("Использовать заклинание не удалось!!");
+                                        Console.WriteLine("Использовать заклинание не удалось!!");
                                 }
                                 Console.WriteLine("Недействительный индекс!!");
                                 break;

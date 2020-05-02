@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading;
+﻿using System.Threading;
 
 namespace RPGgame
 {
@@ -7,36 +6,34 @@ namespace RPGgame
     //здоровья какого-либо персонажа на заданную величину или до предела,
     //задаваемого текущим значением маны.На единицу добавленного здоровья
     //расходуется две единицы маны.
-
     class Addhelth : Spell
     {
-        public Addhelth() 
+        public Addhelth()
         {
             Name = "Добавить здоровье";
             MinMan = 2;
-            movement = false;
-            verbal = true;
+            Movement = false;
+            Verbal = true;
         }
         override public void DoMAgicThing(int Damage, CharacterInfo person)
         {
-            if (Damage % 2 == 0) 
+            if (Damage % 2 == 0)
                 person.CurrentHealth += Damage / 2;
-            else 
-                person.CurrentHealth += (Damage-1)/2;
+            else
+                person.CurrentHealth += (Damage - 1) / 2;
         }
     }
     //2) «Вылечить». Суть этого заклинания – перевести какого-либо персонажа из
     //состояния «болен» в состояние «здоров или ослаблен». Текущая величина
     //здоровья не изменяется.Заклинание требует 20 единиц маны.
-
     class ToCure : Spell
     {
-        public ToCure() 
+        public ToCure()
         {
             Name = "Вылечить";
             MinMan = 20;
-            movement = false;
-            verbal = true;
+            Movement = false;
+            Verbal = true;
         }
         override public void DoMAgicThing(CharacterInfo person)
         {
@@ -52,15 +49,14 @@ namespace RPGgame
     //3) «Противоядие». Суть этого заклинания – перевести какого-либо персонажа
     //из состояния «отравлен» в состояние «здоров или ослаблен». Текущая
     //величина здоровья не изменяется.Заклинание требует 30 единиц маны.
-
     class Antidot : Spell
     {
         public Antidot()
         {
             Name = "Противоядие";
             MinMan = 30;
-            movement = false;
-            verbal = true;
+            Movement = false;
+            Verbal = true;
         }
         override public void DoMAgicThing(CharacterInfo person)
         {
@@ -76,15 +72,14 @@ namespace RPGgame
     //4) «Оживить». Суть этого заклинания – перевести какого-либо персонажа из
     //состояния «мертв» в состояние «здоров или ослаблен». Текущая величина
     //здоровья становится равной 1. Заклинание требует 150 единиц маны.
-
     class Revive : Spell
     {
         public Revive()
         {
             Name = "Оживить";
             MinMan = 150;
-            movement = true;
-            verbal = true;
+            Movement = true;
+            Verbal = true;
         }
         override public void DoMAgicThing(CharacterInfo person)
         {
@@ -95,21 +90,20 @@ namespace RPGgame
     //5) «Броня». Персонаж, на которого обращено заклинание, становится
     //неуязвимым в течение некоторого промежутка времени, определяемого
     //силой заклинания.Заклинание требует 50 единиц маны на единицу времени.
-
     class Armor : Spell
     {
         public Armor()
         {
             Name = "Броня";
             MinMan = 50;
-            movement = true;
-            verbal = false;
+            Movement = true;
+            Verbal = false;
         }
         int Time;
         public override void DoMAgicThing(int usedMana, CharacterInfo person)
         {
             person.Invincible = true;
-            Time = (usedMana/MinMan)*1000;
+            Time = (usedMana / MinMan) * 1000;
             Thread t = new Thread(SleepNow);
             t.Start();
             t.Join();
@@ -129,8 +123,8 @@ namespace RPGgame
         {
             Name = "Отомри!";
             MinMan = 85;
-            movement = false;
-            verbal = true;
+            Movement = false;
+            Verbal = true;
         }
         override public void DoMAgicThing(CharacterInfo person)
         {

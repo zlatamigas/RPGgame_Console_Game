@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-
+﻿
 namespace RPGgame
 {
     //Бутылка с живой водой – увеличивает здоровье персонажа. Здоровье
@@ -50,7 +46,6 @@ namespace RPGgame
     {
         public enum DeadBottle { small, medium, big };
         public DeadBottle bottle { get; private set; }
-
         public Deadwater(DeadBottle size)
         {
             Name = "Бутылка с мертвой водой ";
@@ -190,6 +185,4 @@ namespace RPGgame
             }
         }
     }
-
-
 }

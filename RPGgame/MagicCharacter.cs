@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Collections;
+﻿using System.Collections;
 
 namespace RPGgame
 {
     /*Создать класс-потомок «персонаж, владеющий магией»*/
     public class MagicCharacter : CharacterInfo
     {
-        /* - текущее значение магической энергии (маны) (неотрицательная величина);
-		- максимальное значение маны.	 */
+        /* - текущее значение магической энергии (маны) (неотрицательная величина);*/		
         private int curMP;
         public int CurrentMagicPower
         {
@@ -26,6 +22,7 @@ namespace RPGgame
                 curMP = value;
             }
         }
+       /* - максимальное значение маны.*/
         static int MaxMagicPower = 1000;
 
         /*Мана расходуется на произнесение заклинаний. Если текущее значение маны
@@ -60,7 +57,6 @@ namespace RPGgame
                 }
             return false;
         }
-
         public override string ToString()
         {
             return base.ToString() + $"MP: {CurrentMagicPower}\n";
@@ -70,24 +66,19 @@ namespace RPGgame
 		волшебником в момент его произнесения. Расход маны в этом случае
 		пропорционален силе заклинания. Сила заклинания ограничивается текущим
 		значением маны.*/
-
-
         public ArrayList learnedSpells;
         public bool LearnSpell(Spell spell)
         {
             if (learnedSpells.Count >= 5)
                 return false;
 
-            foreach (Spell x in learnedSpells) {
-                if (spell.GetType() == x.GetType() ) {
+            foreach (Spell x in learnedSpells)
+                if (spell.GetType() == x.GetType())
                     return false;
-                }
-            }
 
             learnedSpells.Add(spell);
             return true;
         }
-
         public bool ForgetSpell(Spell spell)
         {
             if (learnedSpells.Contains(spell))
@@ -97,6 +88,5 @@ namespace RPGgame
             }
             return false;
         }
-
     }
 }
