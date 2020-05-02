@@ -8,7 +8,7 @@ namespace RPGgame
     //задаваемого текущим значением маны.На единицу добавленного здоровья
     //расходуется две единицы маны.
 
-    class Addhelth : Spell//все проверки происходят в классе магии вроде
+    class Addhelth : Spell
     {
         public Addhelth() 
         {
@@ -17,14 +17,12 @@ namespace RPGgame
             movement = false;
             verbal = true;
         }
-        override public void DoMAgicThing(int Damage, CharacterInfo person)//Damage - потраченные мп
+        override public void DoMAgicThing(int Damage, CharacterInfo person)
         {
-            if (Damage % 2 == 0) {
+            if (Damage % 2 == 0) 
                 person.CurrentHealth += Damage / 2;
-            }
-            else {
+            else 
                 person.CurrentHealth += (Damage-1)/2;
-            }
         }
     }
     //2) «Вылечить». Суть этого заклинания – перевести какого-либо персонажа из
@@ -45,13 +43,9 @@ namespace RPGgame
             if (person.state == CharacterInfo.State.sick)
             {
                 if (person.CurrentHealth < 10)
-                {
                     person.state = CharacterInfo.State.weakend;
-                }
                 if (person.CurrentHealth >= 10)
-                {
                     person.state = CharacterInfo.State.normal;
-                }
             }
         }
     }
@@ -70,17 +64,12 @@ namespace RPGgame
         }
         override public void DoMAgicThing(CharacterInfo person)
         {
-
             if (person.state == CharacterInfo.State.poisoned)
             {
                 if (person.CurrentHealth < 10)
-                {
                     person.state = CharacterInfo.State.weakend;
-                }
                 if (person.CurrentHealth >= 10)
-                {
                     person.state = CharacterInfo.State.normal;
-                }
             }
         }
     }
@@ -100,18 +89,7 @@ namespace RPGgame
         override public void DoMAgicThing(CharacterInfo person)
         {
             if (person.state == CharacterInfo.State.dead)
-            {
-                //if (person.CurrentHealth < 10)
-                //{
-                //    person.state = CharacterInfo.State.weakend;
-                //}
-                //if (person.CurrentHealth >= 10)
-                //{
-                //    person.state = CharacterInfo.State.normal;
-                //}
-
                 person.CurrentHealth = 1;
-            }
         }
     }
     //5) «Броня». Персонаж, на которого обращено заклинание, становится
@@ -159,14 +137,10 @@ namespace RPGgame
         {
             if (person.state == CharacterInfo.State.paralyzed)
             {
-                if (person.CurrentHealth < 10)
-                {
+                if (person.CurrentHealth < 100)
                     person.state = CharacterInfo.State.weakend;
-                }
-                if (person.CurrentHealth >= 10)
-                {
+                if (person.CurrentHealth >= 100)
                     person.state = CharacterInfo.State.normal;
-                }
                 person.CurrentHealth = 1;
             }
         }

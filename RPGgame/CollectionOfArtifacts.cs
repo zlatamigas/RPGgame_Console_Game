@@ -11,7 +11,7 @@ namespace RPGgame
     //увеличивающие здоровье соответственно на 10, 25 и 50 единиц.Не
     //возобновляемый.
     class Aqua : Artifacts
-    {        
+    {
         public enum LiveBottle { small, medium, big };
         public LiveBottle bottle { get; private set; }
         public Aqua(LiveBottle size)
@@ -21,7 +21,7 @@ namespace RPGgame
             bottle = size;
             if (bottle == LiveBottle.small)
             {
-                power= 10;
+                power = 10;
                 Name += "(10)";
             }
             if (bottle == LiveBottle.medium)
@@ -31,15 +31,15 @@ namespace RPGgame
             }
             if (bottle == LiveBottle.big)
             {
-                power= 50;
+                power = 50;
                 Name += "(50)";
             }
         }
-       override public void DoMAgicThing(CharacterInfo person)
-       {
+        override public void DoMAgicThing(CharacterInfo person)
+        {
             person.CurrentHealth += power;
             power = 0;
-       }
+        }
     }
     //Бутылка с мертвой водой – увеличивает ману персонажа, владеющего
     //магией.Мана не может превысить максимальную величину, но артефакт
@@ -50,7 +50,7 @@ namespace RPGgame
     {
         public enum DeadBottle { small, medium, big };
         public DeadBottle bottle { get; private set; }
-        
+
         public Deadwater(DeadBottle size)
         {
             Name = "Бутылка с мертвой водой ";
@@ -79,7 +79,6 @@ namespace RPGgame
                 (person as MagicCharacter).CurrentMagicPower += power;
                 power = 0;
             }
-          
         }
     }
     //Посох «Молния». Уменьшает количество здоровья персонажа, против
@@ -95,15 +94,11 @@ namespace RPGgame
             renewability = true;
             power = 100;
         }
-        override public void DoMAgicThing(int Damage, CharacterInfo person) 
-        {   if (power != 0)
-            {    if (power >= Damage)
-                 {
-                    person.CurrentHealth -= Damage;
-                    power -= Damage;
-                 }
-                 
-            }
+        override public void DoMAgicThing(int Damage, CharacterInfo person)
+        {
+            person.CurrentHealth -= Damage;
+            power -= Damage;
+            Name = "Посох «Молния» силой " + power.ToString();
         }
     }
     //Декокт из лягушачьих лапок.Переводит какого-либо персонажа из состояния
@@ -117,15 +112,13 @@ namespace RPGgame
             power = 1;
             renewability = false;
         }
-       override public void DoMAgicThing(CharacterInfo person)
+        override public void DoMAgicThing(CharacterInfo person)
         {
             if (person.state == CharacterInfo.State.poisoned)
             {
                 if (person.CurrentHealth < 10)
-                {
                     person.state = CharacterInfo.State.weakend;
-                }
-                else   
+                else
                     person.state = CharacterInfo.State.normal;
                 power = 0;
             }
@@ -139,26 +132,21 @@ namespace RPGgame
     //Возобновляемый.
     class PoisonousSaliva : Artifacts
     {
-      public PoisonousSaliva()
-      {
+        public PoisonousSaliva()
+        {
             Name = "Ядовитая слюна";
             renewability = true;
             power = 50;
-      }
-      override public void DoMAgicThing(int Damage, CharacterInfo person)
-        {   if (power != 0)
-            {   if (power >= Damage)
-                {
-                    person.CurrentHealth -= Damage;
-                    power -= Damage;
-                }
+        }
+        override public void DoMAgicThing(int Damage, CharacterInfo person)
+        {   
+            person.CurrentHealth -= Damage;
                 
-                if (person.state == CharacterInfo.State.normal || person.state == CharacterInfo.State.weakend)
-                {
-                    person.state = CharacterInfo.State.poisoned;
-                }
-                
-            }
+            if (person.state == CharacterInfo.State.normal || person.state == CharacterInfo.State.weakend)
+                person.state = CharacterInfo.State.poisoned;
+
+            power -= Damage;
+            Name = "Ядовитая слюна силой " + power.ToString();
         }
     }
     //Глаз василиска.Переводит любого не мёртвого персонажа в состояние
@@ -171,41 +159,34 @@ namespace RPGgame
             power = 1;
             renewability = false;
         }
-      override public void DoMAgicThing(CharacterInfo person)
+        override public void DoMAgicThing(CharacterInfo person)
         {
             if (person.state != CharacterInfo.State.dead)
-            {
                 person.state = CharacterInfo.State.paralyzed;
-            }
             power = 0;
         }
     }
-    class Curing : Artifacts 
-    { 
+    class Curing : Artifacts
+    {
         public Curing()
         {
-            Name = "&&&";
+            Name = "Исцеляющий камень";
             renewability = true;
             power = 1000;
         }
         override public void DoMAgicThing(int Damage, CharacterInfo person)
-        {   if (power != 0)
-            {   if (power >= Damage)
-                {
-                    if (Damage % 2 == 0)
-                    {
-                        person.CurrentHealth += Damage / 2;
-                    }
-                    else
-                    {
-                        person.CurrentHealth += (Damage - 1) / 2;
-                    }
-                    power -= Damage;
-                }
-               
+        {
+            if (Damage >= 2)
+            {
+                if (Damage % 2 == 0)
+                    person.CurrentHealth += Damage / 2;
+                else
+                    person.CurrentHealth += (Damage - 1) / 2;
+                power -= Damage;
+                Name = "Исцеляющий камень силой " + power.ToString();
             }
         }
     }
-    
+
 
 }
