@@ -144,7 +144,7 @@ namespace RPGgame
                                         }
                                     case "#":
                                         {
-                                            if (hero.AddArtifact(new FrogsFeet()))
+                                            if (hero.AddArtifact(new Decoction()))
                                                 Console.WriteLine("Добавленно!!");
                                             else
                                                 Console.WriteLine("Недостаточно места в инвенторе!!!");
@@ -273,8 +273,8 @@ namespace RPGgame
                                     case "#":
                                         {
                                             foreach (var x in hero.inventory)
-                                                if (x is FrogsFeet)
-                                                    if (hero.ActivateArtifact(x as FrogsFeet, hero))
+                                                if (x is Decoction)
+                                                    if (hero.ActivateArtifact(x as Decoction, hero))
                                                     {
                                                         Console.WriteLine("Использовано!!");
                                                         break;

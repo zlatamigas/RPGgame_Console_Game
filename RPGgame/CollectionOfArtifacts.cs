@@ -95,9 +95,9 @@ namespace RPGgame
     //Декокт из лягушачьих лапок.Переводит какого-либо персонажа из состояния
     //«отравлен» в состояние «здоров или ослаблен». Текущая величина здоровья
     //не изменяется.Не возобновляемый.
-    class FrogsFeet : Artifacts
+    class Decoction : Artifacts
     {
-        public FrogsFeet()
+        public Decoction()
         {
             power = 1;
             renewability = false;
@@ -136,7 +136,7 @@ namespace RPGgame
             {
                 person.state = CharacterInfo.State.poisoned;
             }
-            power -= Damage; ;
+            power -= Damage; 
         }
     }
     //Глаз василиска.Переводит любого не мёртвого персонажа в состояние
@@ -156,6 +156,26 @@ namespace RPGgame
                 person.state = CharacterInfo.State.paralyzed;
             }
             power = 0;
+        }
+    }
+    class Curing : Artifacts 
+    { 
+        public Curing()
+        {
+            renewability = true;
+            power = 1000;
+        }
+        override public void DoMAgicThing(int Damage, CharacterInfo person)
+        {
+            if (Damage % 2 == 0)
+            {
+                person.CurrentHealth += Damage / 2;
+            }
+            else
+            {
+                person.CurrentHealth += (Damage - 1) / 2;
+            }
+            power -= Damage;
         }
     }
     
