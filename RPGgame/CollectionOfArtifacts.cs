@@ -97,16 +97,12 @@ namespace RPGgame
         }
         override public void DoMAgicThing(int Damage, CharacterInfo person) 
         {   if (power != 0)
-            {    if (power > Damage)
+            {    if (power >= Damage)
                  {
                     person.CurrentHealth -= Damage;
                     power -= Damage;
                  }
-                 else
-                 {
-                    person.CurrentHealth -= power;
-                    power = 0;
-                 }
+                 
             }
         }
     }
@@ -151,16 +147,12 @@ namespace RPGgame
       }
       override public void DoMAgicThing(int Damage, CharacterInfo person)
         {   if (power != 0)
-            {   if (power > Damage)
+            {   if (power >= Damage)
                 {
                     person.CurrentHealth -= Damage;
                     power -= Damage;
                 }
-                else
-                {
-                    person.CurrentHealth -= power;
-                    power = 0;
-                }
+                
                 if (person.state == CharacterInfo.State.normal || person.state == CharacterInfo.State.weakend)
                 {
                     person.state = CharacterInfo.State.poisoned;
@@ -198,7 +190,7 @@ namespace RPGgame
         }
         override public void DoMAgicThing(int Damage, CharacterInfo person)
         {   if (power != 0)
-            {   if (power > Damage)
+            {   if (power >= Damage)
                 {
                     if (Damage % 2 == 0)
                     {
@@ -210,18 +202,7 @@ namespace RPGgame
                     }
                     power -= Damage;
                 }
-                else
-                {
-                    if (power % 2 == 0)
-                    {
-                        person.CurrentHealth += power / 2;
-                    }
-                    else
-                    {
-                        person.CurrentHealth += (power - 1) / 2;
-                    }
-                    power = 0;
-                }
+               
             }
         }
     }
