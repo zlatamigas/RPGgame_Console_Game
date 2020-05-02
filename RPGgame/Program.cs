@@ -69,6 +69,20 @@ namespace RPGgame
                         Console.WriteLine(hero.ToString());
                         return;
                     }
+
+
+                    int ind = rnd.Next(0, boss.inventory.Count);
+                    if (boss.ActivateArtifact(30, boss.inventory[ind] as Artifacts, hero))
+                    {
+                        Console.WriteLine("Вас атаковали!!");
+                        Console.Write("Ваши текущие данные:\n" + hero.ToString());
+                    }
+
+                    if (hero.CurrentHealth == 0) {
+                        Console.WriteLine("Вы проиграли!");
+                        return;
+                    }
+
                     Console.WriteLine("Что вы хотите сделать: \n");
                     Console.WriteLine(" 1 - Текущая информация о герое\n" +
                                   " 2 - Посмотреть характеристики противника\n" +
@@ -480,16 +494,6 @@ namespace RPGgame
                             break;
                     }
                     Console.WriteLine("\n/////////////////////////////////////////////////////////////////////////////////////////////////\n");
-
-                    
-                    int ind = rnd.Next(0, boss.inventory.Count);
-                    if (boss.ActivateArtifact(30, boss.inventory[ind] as Artifacts, hero))
-                    {
-                        Console.WriteLine("Вас атаковали!!");
-                        Console.Write("Ваши текущие данные:\n" + hero.ToString());
-                    }
-                   
-
                 } while (true);
             }
             catch (ArgumentException ag)
