@@ -41,7 +41,7 @@ namespace RPGgame
                 var boss = new CharacterInfo("Босс", CharacterInfo.Gender.male, CharacterInfo.Race.ork);
                 var hero = new MagicCharacter(name, gender, rassa);
 
-                int otvet = 0;
+                string otvet = "0";
                 do
                 {
                     if (boss.CurrentHealth == 0)
@@ -61,21 +61,21 @@ namespace RPGgame
                                   " 9 - Посмотреть выученные заклинания(только если вы маг)\n" +
                                   "10 - Забыть заклинание (только если вы маг)\n" +
                                   " 0 - Завершить игру\n");
-                    otvet = int.Parse(Console.ReadLine());
+                    otvet = Console.ReadLine();
 
                     switch (otvet)
                     {
-                        case 1://инфа о герое
+                        case "1"://инфа о герое
                             {
                                 Console.WriteLine(hero.ToString());
                                 break;
                             }
-                        case 2://инфа о боссе
+                        case "2"://инфа о боссе
                             {
                                 Console.WriteLine(boss.ToString());
                                 break;
                             }
-                        case 3://пополнить артефакты
+                        case "3"://пополнить артефакты
                             {
                                 Console.WriteLine("Какой артефакт вы хотите приобрести" +
                                    "\nБутылка с живой водой(+)" +
@@ -181,7 +181,7 @@ namespace RPGgame
                                 }
                                 break;
                             }
-                        case 4://Использовать артефакт
+                        case "4"://Использовать артефакт
                             {
                                 if (hero.inventory.Count == 0)
                                 {
@@ -230,7 +230,7 @@ namespace RPGgame
                                 Console.WriteLine("Недействительный индекс!!");
                                 break;
                             }
-                        case 5://Посмотреть инвентарь
+                        case "5"://Посмотреть инвентарь
                             {
                                 if (hero.inventory.Count == 0)
                                 {
@@ -241,7 +241,7 @@ namespace RPGgame
                                     Console.WriteLine($"{(x as Artifacts).Name}\n");
                                 break;
                             }
-                        case 6://Выкинуть артефакт
+                        case "6"://Выкинуть артефакт
                             {
                                 if (hero.inventory.Count == 0)
                                 {
@@ -272,7 +272,7 @@ namespace RPGgame
 
                                 break;
                             }
-                        case 7://Выучить закинания
+                        case "7"://Выучить закинания
                             {
                                 if (hero.race == CharacterInfo.Race.wizard)
                                 {
@@ -352,7 +352,7 @@ namespace RPGgame
                                 }
                                 break;
                             }
-                        case 8://Использовать заклинание
+                        case "8"://Использовать заклинание
                             {
                                 if (!(hero is MagicCharacter))
                                 {
@@ -400,7 +400,7 @@ namespace RPGgame
                                 Console.WriteLine("Недействительный индекс!!");
                                 break;
                             }
-                        case 9://Посмотреть выученные заклинания
+                        case "9"://Посмотреть выученные заклинания
                             {
                                 if (!(hero is MagicCharacter))
                                 {
@@ -416,7 +416,7 @@ namespace RPGgame
                                     Console.WriteLine($"{(x as Spell).Name}\n");
                                 break;
                             }
-                        case 10://Забыть заклинание
+                        case "10"://Забыть заклинание
                             {
                                 if (!(hero is MagicCharacter))
                                 {
@@ -432,7 +432,7 @@ namespace RPGgame
                                 int ans10;
                                 Console.WriteLine("Для обращения к изученным заклинаниям, используйте приведенные ниже индексы:");
                                 for (int i = 0; i < hero.learnedSpells.Count; i++)
-                                    Console.WriteLine($"{(hero.learnedSpells[i] as Spell).Name} - {i}");
+                                    Console.WriteLine($"{i} - {(hero.learnedSpells[i] as Spell).Name}");
 
                                 Console.Write("Введите индекс удаляемого заклинания: ");
                                 ans10 = int.Parse(Console.ReadLine());
@@ -451,7 +451,8 @@ namespace RPGgame
 
                                 break;
                             }
-                        case 0://выход
+                        case "0"://выход
+                            Console.WriteLine("Игра завершена!");
                             return;
                         default:
                             Console.WriteLine("Такой команды нет!!");

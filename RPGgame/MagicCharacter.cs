@@ -75,13 +75,17 @@ namespace RPGgame
         public ArrayList learnedSpells;
         public bool LearnSpell(Spell spell)
         {
-            if (!learnedSpells.Contains(spell))
-                if (learnedSpells.Count < 5)
-                {
-                    learnedSpells.Add(spell);
-                    return true;
+            if (learnedSpells.Count >= 5)
+                return false;
+
+            foreach (Spell x in learnedSpells) {
+                if (spell.GetType() == x.GetType() ) {
+                    return false;
                 }
-            return false;
+            }
+
+            learnedSpells.Add(spell);
+            return true;
         }
 
         public bool ForgetSpell(Spell spell)
