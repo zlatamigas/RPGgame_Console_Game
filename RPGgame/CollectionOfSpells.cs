@@ -108,13 +108,12 @@ namespace RPGgame
         int Time;
         public override void DoMAgicThing(int usedMana, CharacterInfo person)
         {
-            int firstprotection = person.Protection;
-            person.Protection = 100;
+            person.Invincible = true;
             Time = (usedMana/MinMan)*1000;
             Thread t = new Thread(SleepNow);
             t.Start();
             t.Join();
-            person.Protection = firstprotection;
+            person.Invincible = false;
         }
         private void SleepNow()
         {

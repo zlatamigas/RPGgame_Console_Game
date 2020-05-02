@@ -7,7 +7,7 @@ namespace RPGgame
 {
 	public class CharacterInfo : IComparable
 	{
-		public int Protection { get; set; }
+		public bool Invincible;
 
 		/*- уникальный числовой идентификатор (*);*/
 		static int next_ID = 0;
@@ -116,6 +116,8 @@ namespace RPGgame
 			}
 			Experiance = 0;
 			inventory = new ArrayList();
+
+			Invincible = false;
 		}
 		/*- свойства для всех полей (доступ к полям может быть реализован только при помощи свойств);*/
 		//(?)

@@ -96,7 +96,8 @@ namespace RPGgame
         }
         override public void DoMAgicThing(int Damage, CharacterInfo person)
         {
-            person.CurrentHealth -= Damage;
+            if (person.Invincible == false)
+                person.CurrentHealth -= Damage;
             power -= Damage;
             Name = "Посох «Молния» силой " + power.ToString();
         }
@@ -139,12 +140,14 @@ namespace RPGgame
             power = 50;
         }
         override public void DoMAgicThing(int Damage, CharacterInfo person)
-        {   
-            person.CurrentHealth -= Damage;
-                
-            if (person.state == CharacterInfo.State.normal || person.state == CharacterInfo.State.weakend)
-                person.state = CharacterInfo.State.poisoned;
+        {
+            if (person.Invincible == false)
+            {
+                person.CurrentHealth -= Damage;
 
+                if (person.state == CharacterInfo.State.normal || person.state == CharacterInfo.State.weakend)
+                    person.state = CharacterInfo.State.poisoned;
+            }
             power -= Damage;
             Name = "Ядовитая слюна силой " + power.ToString();
         }
