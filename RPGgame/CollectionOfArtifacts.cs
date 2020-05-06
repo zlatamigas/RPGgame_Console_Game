@@ -71,10 +71,8 @@ namespace RPGgame
         override public void DoMAgicThing(CharacterInfo person)
         {
             if (person is MagicCharacter)
-            {
                 (person as MagicCharacter).CurrentMagicPower += power;
-                power = 0;
-            }
+            power = 0;
         }
     }
 
@@ -119,8 +117,8 @@ namespace RPGgame
                     person.state = CharacterInfo.State.weakend;
                 else
                     person.state = CharacterInfo.State.normal;
-                power = 0;
             }
+            power = 0;
         }
     }
 

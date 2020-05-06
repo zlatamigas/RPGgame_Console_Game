@@ -28,7 +28,10 @@ namespace RPGgame
         public int Age { get; private set; }
 
         /* Максимальное значение для здоровья персонажа;*/
-        public static int MaxHealth = 1000;
+        private static int maxHealth = 1000;
+        public static int MaxHealth {
+            get {return maxHealth;}
+        }
 
         /* Векущее значение здоровья персонажа (неотрицательная величина);*/
         private int curHealth;
@@ -45,7 +48,7 @@ namespace RPGgame
                 if (value > MaxHealth)
                     value = MaxHealth;
                 curHealth = value;
-                CheckState(this);
+                CheckState();
             }
         }
 
@@ -53,7 +56,7 @@ namespace RPGgame
 		становится менее 10, персонаж автоматически переходит из состояния «здоров» в состояние «ослаблен». Если процент 
 		здоровья персонажа становится большим или равным 10, персонаж автоматически переходит из состояния «ослаблен» в  состояние
         «здоров». Если текущее значение здоровья равно 0, персонаж автоматически переходит из любого состояния в состояние «мертв».*/
-        public void CheckState(CharacterInfo character)
+        public void CheckState()
         {
             if (state == State.normal || state == State.weakend || state == State.dead)
             {
@@ -84,7 +87,6 @@ namespace RPGgame
             ID = next_ID++;
 
             Name = aname;
-            race = arace;
             gender = agender;
             Age = arace switch
             {
@@ -94,6 +96,7 @@ namespace RPGgame
                 Race.spirit => 478,
                 _ => throw new ArgumentException("Unknown race!"),
             };
+            race = arace;
 
             curHealth = MaxHealth;
             state = State.normal;
@@ -178,7 +181,7 @@ namespace RPGgame
         public bool ActivateArtifact(int expectedPower, Artifacts ourartifact, CharacterInfo target)
         {
             if (inventory.Contains(ourartifact))
-                if (ourartifact.power != 0)
+                if (ourartifact.power != 0 && expectedPower > 0)
                 {
                     int activatePower;
                     if (expectedPower <= ourartifact.power)

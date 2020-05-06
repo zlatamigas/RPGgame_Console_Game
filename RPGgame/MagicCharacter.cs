@@ -6,7 +6,7 @@ namespace RPGgame
     public class MagicCharacter : CharacterInfo
     {
         /* Максимальное значение маны.*/
-        static int MaxMagicPower = 1000;
+        static readonly int MaxMagicPower = 1000;
 
         /* Текущее значение магической энергии (маны) (неотрицательная величина);*/		
         private int curMP;
